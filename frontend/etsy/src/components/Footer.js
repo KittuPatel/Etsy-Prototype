@@ -3,37 +3,65 @@ import React from 'react'
 const Footer = () => {
   return (
          
-    <footer class="footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6">
-          <div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
-            <ul class="footer_nav">
-              <li><a href="/">Blog</a></li>
-              <li><a href="/">FAQs</a></li>
-              <li><a href="/">Contact us</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
-            <ul>
-              <li><a href="/"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-              <li><a href="/"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-              <li><a href="/"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-              <li><a href="/"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
-              <li><a href="/"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="footer_nav_container">
-            <div class="cr">©2022 All Rights Reserverd. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="/">Krishna Sai</a></div>
-          </div>
-        </div>
-      </div>
+    <footer className="footer">
+    <div className="container footerContainer">
+        <div className="row">
+            <div className="col-lg-12">
+            <div className="footer_nav_container">
+                <div className="cr">©2022 All Rights Reserverd. Made with <i className="fa fa-heart-o" aria-hidden="true"></i> by <a href="/">Krishna Sai</a></div>
+            </div>
+            </div>
+              </div>
+              <div className="top_nav">
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-6">
+                        <div className="top_nav_left">free shipping on all u.s orders over $50</div>
+                    </div>
+                    <div className="col-md-6 text-right">
+                        <div className="top_nav_right">
+                            <ul className="top_nav_menu">
+                                <li className="currency">
+                                    <a href="/">
+                                        usd
+                                        <i className="fa fa-angle-down"></i>
+                                    </a>
+                                    {/* <ul className="currency_selection">
+                                        <li><a href="/">cad</a></li>
+                                        <li><a href="/">aud</a></li>
+                                        <li><a href="/">eur</a></li>
+                                        <li><a href="/">gbp</a></li>
+                                    </ul> */}
+                                </li>
+                                <li className="language">
+                                    <a href="/">
+                                        English
+                                        <i className="fa fa-angle-down"></i>
+                                    </a>
+                                    {/* <ul className="language_selection">
+                                        <li><a href="/">French</a></li>
+                                        <li><a href="/">Italian</a></li>
+                                        <li><a href="/">German</a></li>
+                                        <li><a href="/">Spanish</a></li>
+                                    </ul> */}
+                                </li>
+                                <li className="account">
+                                    <a href="/">
+                                        My Account
+                                        <i className="fa fa-angle-down"></i>
+                                    </a>
+                                    {/* <ul className="account_selection">
+                                        <li><a href="/"><i className="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
+                                        <li><a href=""><i className="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+                                    </ul> */}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+              
     </div>
   </footer>
   )
