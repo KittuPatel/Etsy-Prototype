@@ -147,13 +147,6 @@ h6 {
   -webkit-text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
   text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
 }
-h1::selection,
-h2::selection,
-h3::selection,
-h4::selection,
-h5::selection,
-h6::selection {
-}
 ::-webkit-input-placeholder {
   font-size: 16px !important;
   font-weight: 500;
@@ -656,7 +649,6 @@ section {
   display: block;
   position: relative;
   border-bottom: solid 1px #eeebf5;
-  vertical-align: middle;
 }
 .menu_item > a {
   display: block;
@@ -886,8 +878,6 @@ section {
 }
 .grid_sorting_button:first-child {
   margin-left: 0px;
-}
-.grid_sorting_button:last-child {
 }
 .grid_sorting_button.active:hover {
   background: #fe7c7f !important;
