@@ -13,6 +13,10 @@ app.get('/', (req, res) => {
     res.send("Hello world")
 })
 
+app.get('/api/test', (req, res) => {
+    res.send("Hello world test")
+})
+
 app.listen(3001, () => {
     console.log("Server listening on port 3001");
 })
