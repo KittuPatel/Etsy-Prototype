@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Register = () => {
+const Login = () => {
   return (
     <div className="d-lg-flex half">
     <div className="bg order-2 order-md-1" style= {{
@@ -10,13 +10,9 @@ const Register = () => {
       <div className="container">
         <div className="row align-items-center justify-content-center">
           <div className="col-md-7">
-            <h3 className='mb-4'>Signup to <span className='etsy-logo'>Etsy</span></h3>
+            <h3 className='mb-4'>Login to <span className='etsy-logo'>Etsy</span></h3>
             {/* <p className="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p> */}
             <form action="#" method="post">
-              <div className="form-group username">
-                <label for="username">Fullname</label>
-                <input type="text" className="form-control" style={{fontWeight: 'normal'}} placeholder="Enter your Name" id="name" />
-              </div>
               <div className="form-group email">
                 <label for="username">Email</label>
                 <input type="email" className="form-control" placeholder="your-email@gmail.com" id="email" />
@@ -27,7 +23,7 @@ const Register = () => {
               </div>
               
               <div className="d-flex mb-2 align-items-center">
-                  <p>You agree to the Terms & Conditions by signing up.</p>
+                  <p>You agree to the Terms & Conditions by Logging in.</p>
                 {/* <label className="control control--checkbox mb-0"><span className="caption">Remember me</span>
                   <input type="checkbox" checked="checked"/>
                   <div className="control__indicator"></div>
@@ -35,18 +31,16 @@ const Register = () => {
                 {/* <span className="ml-auto"><a href="#" className="forgot-pass">Forgot Password</a></span>  */}
               </div>
 
-              <input type="submit" value="Sign up" className="btn btn-block btn-primary" />
+              <input type="submit" value="Login" className="btn btn-block btn-primary" />
                 <br />
-              <p className="text-center">Already have an account? <a href="/login">Login</a></p>
+              <p className="text-center">Don't have an account? <a href="/register">Register</a></p>
             </form>
           </div>
         </div>
       </div>
-    </div>
-
-    
+    </div> 
   </div>
   )
 }
 
-export default Register
+export default Login

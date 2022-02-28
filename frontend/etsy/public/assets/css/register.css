@@ -1,6 +1,17 @@
 p {
-  color: #b3b3b3;
+  color: #504a4a;
   /* font-weight: 300; */
+}
+
+.etsy-logo {
+  color: #fe4c50;
+  font-size: xx-large;
+  font-weight: 700;
+}
+
+input::-webkit-input-placeholder {
+  /* color: blue; */
+  font-weight: normal;
 }
 
 a {
