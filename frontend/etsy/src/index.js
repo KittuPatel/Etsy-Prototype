@@ -5,10 +5,11 @@ import App from './App';
 import Register from './components/Register';
 import Login from './components/Login';
 import reportWebVitals from './reportWebVitals';
+import Favorites from './components/Favorites';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Favorites />
   </React.StrictMode>,
   document.getElementById('root')
 );
