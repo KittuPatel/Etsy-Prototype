@@ -10,7 +10,7 @@ import ShopName from './components/ShopName';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ShopName />
+    <Favorites />
   </React.StrictMode>,
   document.getElementById('root')
 );
