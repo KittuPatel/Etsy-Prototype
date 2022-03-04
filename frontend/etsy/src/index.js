@@ -6,10 +6,11 @@ import Register from './components/Register';
 import Login from './components/Login';
 import reportWebVitals from './reportWebVitals';
 import Favorites from './components/Favorites';
+import ShopName from './components/ShopName';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Favorites />
+    <ShopName />
   </React.StrictMode>,
   document.getElementById('root')
 );
