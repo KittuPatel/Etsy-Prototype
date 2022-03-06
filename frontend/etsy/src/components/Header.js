@@ -3,8 +3,6 @@ import React from 'react'
 const Header = () => {
   return (
     <header class="header">    
-       
-        
             <div class="main_nav_container">
             <div class="container">
                 <div class="row">

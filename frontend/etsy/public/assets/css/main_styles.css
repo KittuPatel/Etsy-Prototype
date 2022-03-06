@@ -172,9 +172,9 @@ h6 {
   font-weight: 500;
   color: #777777 !important;
 }
-.form-control {
+/* .form-control {
   color: #db5246;
-}
+} */
 section {
   display: block;
   position: relative;

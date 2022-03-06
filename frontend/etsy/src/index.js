@@ -7,10 +7,11 @@ import Login from './components/Login';
 import reportWebVitals from './reportWebVitals';
 import Favorites from './components/Favorites';
 import ShopName from './components/ShopName';
+import ProfilePage from './components/ProfilePage';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ProfilePage />
   </React.StrictMode>,
   document.getElementById('root')
 );
