@@ -8,10 +8,12 @@ import reportWebVitals from './reportWebVitals';
 import Favorites from './components/Favorites';
 import ShopName from './components/ShopName';
 import ProfilePage from './components/ProfilePage';
+import ItemOverview from './components/ItemOverview';
+import ShopHome from './components/ShopHome';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ProfilePage />
+    <ShopHome />
   </React.StrictMode>,
   document.getElementById('root')
 );
