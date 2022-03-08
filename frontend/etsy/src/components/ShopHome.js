@@ -45,9 +45,9 @@ const ShopHome = () => {
             <div className="col-md-12">
                 <h4>Items</h4>
                 </div>
-                {/* <div className="col-md-4">
+                <div className="col-md-4">
                 <h4>Items</h4>
-                </div> */}
+                </div>
             </div>
       </div>
   )
