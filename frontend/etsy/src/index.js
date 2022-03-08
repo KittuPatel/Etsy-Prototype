@@ -10,10 +10,11 @@ import ShopName from './components/ShopName';
 import ProfilePage from './components/ProfilePage';
 import ItemOverview from './components/ItemOverview';
 import ShopHome from './components/ShopHome';
+import Cart from './components/Cart';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ShopHome />
+    <Cart />
   </React.StrictMode>,
   document.getElementById('root')
 );
