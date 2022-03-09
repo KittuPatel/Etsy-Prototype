@@ -14,7 +14,7 @@ import Cart from './components/Cart';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Cart />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
