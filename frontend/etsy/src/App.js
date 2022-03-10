@@ -1,21 +1,15 @@
 import './App.css';
-import Footer from './components/Footer';
-import Header from './components/Header';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
-import routes from './routes';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Routes from './Routes';
 
 function App() {
   return (
     <div className="MainDiv">
-      <Header/>
       <BrowserRouter>
-        <Switch>
-          {routes.map((route, index) => (
-            <Route key={index} path={route.path} exact render={ (props) => <route.component {...props} />} />
-          ))}
-        </Switch>
+        <div>
+          <Routes />
+        </div>
       </BrowserRouter>  
-      <Footer />
       </div>
   );
 }
