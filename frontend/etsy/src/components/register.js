@@ -1,6 +1,13 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
+import { registerAction } from "../context/actions/registerAction"
+import { GlobalContext } from "../context/Provider"
 
 const Register = () => {
+  const { authDispatch, authState } = useContext(GlobalContext)
+
+  const { auth } = authState
+  const { loading } = auth
+
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -14,6 +21,12 @@ const Register = () => {
       [e.target.name]: value,
     })
     console.log(form)
+  }
+
+  const submitHandler = (e) => {
+    console.log("submitHandler")
+    registerAction(form)(authDispatch)
+    console.log(authState)
   }
 
   return (
@@ -86,10 +99,14 @@ const Register = () => {
                 <input
                   type='submit'
                   value='Sign up'
-                  disabled={!form.fullName || !form.email || !form.password}
+                  onClick={submitHandler}
+                  disabled={
+                    !form.fullName || !form.email || !form.password || loading
+                  }
                   className='btn btn-block btn-primary'
                 />
                 <br />
+                {loading && <p>Loading..</p>}
                 <p className='text-center'>
                   Already have an account? <a href='/login'>Login</a>
                 </p>
