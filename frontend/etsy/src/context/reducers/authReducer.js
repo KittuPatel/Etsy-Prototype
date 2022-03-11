@@ -2,7 +2,7 @@ import {
   REGISTER_LOADING,
   REGISTER_ERROR,
   REGISTER_SUCCESS,
-} from "../actions/constants"
+} from "../actions/actionTypes"
 
 const authReducer = (state, action) => {
   switch (action.type) {

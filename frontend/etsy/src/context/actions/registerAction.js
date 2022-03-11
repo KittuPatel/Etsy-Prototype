@@ -1,5 +1,9 @@
 import axiosInstance from "../../helpers/axios"
-import { REGISTER_ERROR, REGISTER_LOADING, REGISTER_SUCCESS } from "./constants"
+import {
+  REGISTER_ERROR,
+  REGISTER_LOADING,
+  REGISTER_SUCCESS,
+} from "./actionTypes"
 // so actions are responsible for making api calls and tells the reducer how to update the state.
 
 export const registerAction = (user) => (dispatch) => {

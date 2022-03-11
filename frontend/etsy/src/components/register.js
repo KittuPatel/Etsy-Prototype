@@ -15,7 +15,7 @@ const Register = () => {
     if (data) {
       history.push("/login")
     }
-  }, [])
+  }, [data])
 
   const [form, setForm] = useState({
     fullName: "",
