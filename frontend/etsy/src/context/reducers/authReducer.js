@@ -22,7 +22,7 @@ const authReducer = (state, action) => {
         auth: {
           ...state.auth,
           loading: false,
-          user: action.payload,
+          data: action.payload,
         },
       }
 

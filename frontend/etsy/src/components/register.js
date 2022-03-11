@@ -1,12 +1,21 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { registerAction } from "../context/actions/registerAction"
 import { GlobalContext } from "../context/Provider"
+import { useHistory } from "react-router-dom"
 
 const Register = () => {
   const { authDispatch, authState } = useContext(GlobalContext)
 
   const { auth } = authState
-  const { loading } = auth
+  const { loading, error, data } = auth
+
+  const history = useHistory()
+
+  useEffect(() => {
+    if (data) {
+      history.push("/login")
+    }
+  }, [])
 
   const [form, setForm] = useState({
     fullName: "",
