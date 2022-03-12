@@ -9,11 +9,11 @@ const Register = () => {
   const { auth } = authState
   const { loading, error, data } = auth
 
-  const history = useHistory()
+  // const history = useHistory()
 
   useEffect(() => {
     if (data) {
-      history.push("/login")
+      // history.push("/login")
     }
   }, [data])
 
