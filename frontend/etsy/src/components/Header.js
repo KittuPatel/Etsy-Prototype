@@ -82,7 +82,7 @@ const Header = () => {
                   <li>
                     <Input
                       icon={{ name: "search", link: true }}
-                      placeholder='Search...'
+                      placeholder='Search for anything'
                       style={{ width: "370px" }}
                     />
                   </li>
