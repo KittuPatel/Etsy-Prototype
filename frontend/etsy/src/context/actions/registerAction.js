@@ -17,6 +17,9 @@ export const registerAction = (user) => (dispatch) => {
     })
     .catch((error) => {
       console.log("error from registerAction", error)
-      dispatch({ type: REGISTER_ERROR, payload: error.response.data })
+      dispatch({
+        type: REGISTER_ERROR,
+        payload: error.response ? error.response.data : "Could not connect",
+      })
     })
 }

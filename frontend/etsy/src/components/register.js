@@ -19,7 +19,10 @@ const Register = () => {
 
   useEffect(() => {
     if (data) {
-      history.push("/login")
+      setForm({ username: "", email: "", password: "" })
+      setTimeout(() => {
+        history.push("/login")
+      }, 2000)
     }
   }, [data])
 
@@ -62,6 +65,11 @@ const Register = () => {
               <h3 className='mb-4'>
                 Signup to <span className='etsy-logo'>Etsy</span>
               </h3>
+              {data ? (
+                <div class='alert alert-success' role='alert'>
+                  Account Created Successfully!
+                </div>
+              ) : null}
               {/* <p className="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p> */}
               <form action='#' method='post'>
                 <div className='form-group username'>
@@ -73,7 +81,7 @@ const Register = () => {
                     placeholder='Enter your Name'
                     id='name'
                     name='username'
-                    value={form.fullName}
+                    value={form.username}
                     onChange={handleChange}
                   />
                 </div>
@@ -115,14 +123,17 @@ const Register = () => {
                   type='button'
                   value='Sign up'
                   onClick={submitHandler}
-                  // disabled={!form.fullName || !form.email || !form.password}
+                  disabled={!form.username || !form.email || !form.password}
                   className='btn btn-block btn-primary'
                 />
                 <br />
-                {loading && <p>Loading..</p>}
-                <p className='text-center'>
-                  Already have an account? <a href='/login'>Login</a>
-                </p>
+                {loading ? (
+                  <p>Loading..</p>
+                ) : (
+                  <p className='text-center'>
+                    Already have an account? <a href='/login'>Login</a>
+                  </p>
+                )}
               </form>
             </div>
           </div>

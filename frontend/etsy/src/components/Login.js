@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { GlobalContext } from "../context/Provider"
 
 const Login = () => {
@@ -6,6 +6,27 @@ const Login = () => {
   const {
     auth: { data },
   } = authState
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  })
+
+  const handleChange = (e) => {
+    const value = e.target.value
+    setForm({
+      ...form,
+      [e.target.name]: value,
+    })
+    console.log(form)
+  }
+
+  const submitHandler = (e) => {
+    console.log("submitHandler from login")
+    // registerAction(form)(authDispatch)
+    // console.log(authState)
+  }
+
   return (
     <div className='d-lg-flex half'>
       <div
@@ -21,19 +42,22 @@ const Login = () => {
         <div className='container'>
           <div className='row align-items-center justify-content-center'>
             <div className='col-md-7'>
-              {data ? `Welcome ${data.username}` : "Login"}
+              {/* {data ? `Welcome ${data.username}` : "Login"} */}
               <h3 className='mb-4'>
                 Login to <span className='etsy-logo'>Etsy</span>
               </h3>
               {/* <p className="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p> */}
               <form action='#' method='post'>
                 <div className='form-group email'>
-                  <label for='username'>Email</label>
+                  <label for='email'>Email</label>
                   <input
                     type='email'
                     className='form-control'
                     placeholder='your-email@gmail.com'
                     id='email'
+                    name='email'
+                    value={form.email}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className='form-group password mb-3'>
@@ -43,6 +67,9 @@ const Login = () => {
                     className='form-control'
                     placeholder='Enter Password'
                     id='password'
+                    name='password'
+                    value={form.password}
+                    onChange={handleChange}
                   />
                 </div>
 
@@ -56,9 +83,11 @@ const Login = () => {
                 </div>
 
                 <input
-                  type='submit'
+                  type='button'
                   value='Login'
+                  disabled={!form.email || !form.password}
                   className='btn btn-block btn-primary'
+                  onClick={submitHandler}
                 />
                 <br />
                 <p className='text-center'>
