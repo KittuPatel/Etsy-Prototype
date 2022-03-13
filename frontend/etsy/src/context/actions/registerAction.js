@@ -10,9 +10,9 @@ export const registerAction = (user) => (dispatch) => {
   dispatch({ type: REGISTER_LOADING })
 
   axiosInstance
-    .post("/register", user)
+    .post("/signUp", user)
     .then((response) => {
-      console.log("response from registerAction", response)
+      console.log("response from registerAction", response.data)
       dispatch({ type: REGISTER_SUCCESS, payload: response.data })
     })
     .catch((error) => {

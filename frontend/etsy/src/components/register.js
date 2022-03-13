@@ -9,16 +9,22 @@ const Register = () => {
   const { auth } = authState
   const { loading, error, data } = auth
 
-  // const history = useHistory()
+  const history = useHistory()
+  useEffect(() => {
+    if (error) {
+      console.log("error", error)
+      alert(error)
+    }
+  }, [error])
 
   useEffect(() => {
     if (data) {
-      // history.push("/login")
+      history.push("/login")
     }
   }, [data])
 
   const [form, setForm] = useState({
-    fullName: "",
+    username: "",
     email: "",
     password: "",
   })
@@ -66,13 +72,13 @@ const Register = () => {
                     style={{ fontWeight: "normal" }}
                     placeholder='Enter your Name'
                     id='name'
-                    name='fullName'
+                    name='username'
                     value={form.fullName}
                     onChange={handleChange}
                   />
                 </div>
                 <div className='form-group email'>
-                  <label for='username'>Email</label>
+                  <label for='email'>Email</label>
                   <input
                     type='email'
                     className='form-control'
@@ -106,12 +112,10 @@ const Register = () => {
                 </div>
 
                 <input
-                  type='submit'
+                  type='button'
                   value='Sign up'
                   onClick={submitHandler}
-                  disabled={
-                    !form.fullName || !form.email || !form.password || loading
-                  }
+                  // disabled={!form.fullName || !form.email || !form.password}
                   className='btn btn-block btn-primary'
                 />
                 <br />

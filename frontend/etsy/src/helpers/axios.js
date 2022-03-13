@@ -1,15 +1,15 @@
-import axios from "axios";
+import axios from "axios"
 
-const baseURL = process.env.REACT_APP_BACKEND_URL;
-let headers = {};
+const baseURL = "http://localhost:3030"
+let headers = {}
 
 if (localStorage.token) {
-    headers.Authorization = `Bearer ${localStorage.token}`
+  headers.Authorization = `${localStorage.token}`
 }
 
 const axiosInstance = axios.create({
-    baseURL: baseURL,
-    headers
-});
+  baseURL: baseURL,
+  headers,
+})
 
-export default axiosInstance;
+export default axiosInstance
