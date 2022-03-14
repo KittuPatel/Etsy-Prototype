@@ -8,6 +8,7 @@ export const loginAction = (user) => (dispatch) => {
   axiosInstance
     .post("/login", user)
     .then((response) => {
+      localStorage.token = response.data.token
       console.log("response from LOGINAction", response.data)
       dispatch({ type: LOGIN_SUCCESS, payload: response.data })
     })

@@ -1,16 +1,39 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useEffect } from "react"
+import { loginAction } from "../context/actions/loginAction"
 import { GlobalContext } from "../context/Provider"
+import { useHistory } from "react-router-dom"
 
 const Login = () => {
   const { authState, authDispatch } = useContext(GlobalContext)
   const {
-    auth: { data },
+    auth: { data, loading, error },
   } = authState
+
+  const history = useHistory()
 
   const [form, setForm] = useState({
     email: "",
     password: "",
   })
+
+  const [errorMsg, setErrorMsg] = useState("")
+
+  useEffect(() => {
+    if (error) {
+      console.log("error", error)
+      setErrorMsg(error.msg)
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (data) {
+      if (data.data) {
+        setForm({ email: "", password: "" })
+        console.log("data", data)
+        history.push("/")
+      }
+    }
+  }, [data])
 
   const handleChange = (e) => {
     const value = e.target.value
@@ -23,8 +46,8 @@ const Login = () => {
 
   const submitHandler = (e) => {
     console.log("submitHandler from login")
-    // registerAction(form)(authDispatch)
-    // console.log(authState)
+    loginAction(form)(authDispatch)
+    console.log(authState)
   }
 
   return (
@@ -34,7 +57,7 @@ const Login = () => {
         style={{
           backgroundImage:
             "url(" +
-            "https://images.pexels.com/photos/7585763/pexels-photo-7585763.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" +
+            "https://images.unsplash.com/photo-1541945595194-4e2320efa02f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80" +
             ")",
         }}
       ></div>
@@ -46,7 +69,17 @@ const Login = () => {
               <h3 className='mb-4'>
                 Login to <span className='etsy-logo'>Etsy</span>
               </h3>
-              {/* <p className="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p> */}
+              {data ? (
+                <div class='alert alert-success' role='alert'>
+                  Account Created Successfully!
+                </div>
+              ) : null}
+              {error ? (
+                <div class='alert alert-danger' role='alert'>
+                  {errorMsg}
+                </div>
+              ) : null}
+
               <form action='#' method='post'>
                 <div className='form-group email'>
                   <label for='email'>Email</label>
@@ -90,6 +123,7 @@ const Login = () => {
                   onClick={submitHandler}
                 />
                 <br />
+                {loading ? <p>Loading..</p> : null}
                 <p className='text-center'>
                   Don't have an account? <a href='/register'>Register</a>
                 </p>

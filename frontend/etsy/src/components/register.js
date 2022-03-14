@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 import { registerAction } from "../context/actions/registerAction"
 import { GlobalContext } from "../context/Provider"
 import { useHistory } from "react-router-dom"
+import { Loader } from "semantic-ui-react"
 
 const Register = () => {
   const { authDispatch, authState } = useContext(GlobalContext)
@@ -10,10 +11,19 @@ const Register = () => {
   const { loading, error, data } = auth
 
   const history = useHistory()
+
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+  })
+
+  const [errorMsg, setErrorMsg] = useState("")
+
   useEffect(() => {
     if (error) {
       console.log("error", error)
-      alert(error)
+      setErrorMsg(error.msg)
     }
   }, [error])
 
@@ -25,12 +35,6 @@ const Register = () => {
       }, 2000)
     }
   }, [data])
-
-  const [form, setForm] = useState({
-    username: "",
-    email: "",
-    password: "",
-  })
 
   const handleChange = (e) => {
     const value = e.target.value
@@ -68,6 +72,11 @@ const Register = () => {
               {data ? (
                 <div class='alert alert-success' role='alert'>
                   Account Created Successfully!
+                </div>
+              ) : null}
+              {error ? (
+                <div class='alert alert-danger' role='alert'>
+                  {errorMsg}
                 </div>
               ) : null}
               {/* <p className="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p> */}
@@ -128,7 +137,7 @@ const Register = () => {
                 />
                 <br />
                 {loading ? (
-                  <p>Loading..</p>
+                  <p>Loading</p>
                 ) : (
                   <p className='text-center'>
                     Already have an account? <a href='/login'>Login</a>

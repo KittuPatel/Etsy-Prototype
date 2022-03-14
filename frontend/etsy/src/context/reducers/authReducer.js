@@ -2,11 +2,15 @@ import {
   REGISTER_LOADING,
   REGISTER_ERROR,
   REGISTER_SUCCESS,
+  LOGIN_LOADING,
+  LOGIN_ERROR,
+  LOGIN_SUCCESS,
 } from "../actions/actionTypes"
 
 const authReducer = (state, action) => {
   switch (action.type) {
     case REGISTER_LOADING:
+    case LOGIN_LOADING:
       return {
         ...state,
         auth: {
@@ -17,6 +21,7 @@ const authReducer = (state, action) => {
       }
 
     case REGISTER_SUCCESS:
+    case LOGIN_SUCCESS:
       return {
         ...state,
         auth: {
@@ -27,6 +32,7 @@ const authReducer = (state, action) => {
       }
 
     case REGISTER_ERROR:
+    case LOGIN_ERROR:
       return {
         ...state,
         auth: {

@@ -51,7 +51,7 @@ function signUp(req, res) {
               ? res.json({
                   username: userName,
                   email: email,
-                  userid: newUserId,
+                  message: "User created successfully",
                 })
               : res.json(err)
           }
