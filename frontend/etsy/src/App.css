@@ -1,6 +1,11 @@
 a {
   color: #f96332;
 }
+
+btn {
+  cursor: pointer;
+}
+
 .m-t-5 {
   margin-top: 5px;
 }
