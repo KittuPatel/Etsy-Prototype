@@ -21,7 +21,7 @@ const Login = () => {
   useEffect(() => {
     if (error) {
       console.log("error", error)
-      setErrorMsg(error)
+      setErrorMsg(error.msg)
     }
   }, [error])
 

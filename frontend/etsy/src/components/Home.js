@@ -1,11 +1,16 @@
-import React, { useEffect, useContext } from "react"
+import React, { useEffect, useContext, useState } from "react"
 import { GlobalContext } from "../context/Provider"
-import { useHistory } from "react-router-dom"
+import { useHistory, Link } from "react-router-dom"
 import { productsAction } from "../context/actions/productsAction"
 
 const Home = () => {
+  // const [productsList, setProductsList] = useState([])
+
   const { globalDispatch, globalState } = useContext(GlobalContext)
-  const { user } = globalState
+  const {
+    user,
+    products: { data },
+  } = globalState
   console.log("user from globalState", user?.userId)
   const userId = user?.userId
   useEffect(() => {
@@ -14,6 +19,56 @@ const Home = () => {
   }, [user])
 
   console.log("Global State from Home", globalState)
+
+  const productsDiv = data?.products.map((product) => {
+    return (
+      // assets/images/product_1.png
+      <div class='col-md-3 col-lg-3 col-sm-6'>
+        <div class='product-grid'>
+          <div class='product-image'>
+            <Link to='/' class='image'>
+              <img class='img-1' src='assets/images/product_1.png' />
+              <img class='img-2' src='assets/images/product_1.png' />
+            </Link>
+            <ul class='product-links'>
+              <li>
+                <Link to='/'>
+                  <i class='fa fa-heart'></i>
+                </Link>
+              </li>
+              <li>
+                <Link to='/'>
+                  <i class='fa fa-random'></i>
+                </Link>
+              </li>
+              <li>
+                <Link to='/'>
+                  <i class='fa fa-shopping-cart'></i>
+                </Link>
+              </li>
+            </ul>
+            <Link to='/' class='product-view'>
+              <i class='fa fa-search'></i>
+            </Link>
+          </div>
+          <div class='product-content'>
+            <ul class='rating'>
+              <li class='fa fa-star'></li>
+              <li class='fa fa-star'></li>
+              <li class='fa fa-star'></li>
+              <li class='fa fa-star'></li>
+              <li class='fa fa-star disable'></li>
+              <li class='disable'>(1 reviews)</li>
+            </ul>
+            <h3 class='title'>
+              <Link to='#'>{product.name}</Link>
+            </h3>
+            <div class='price'>${product.price}</div>
+          </div>
+        </div>
+      </div>
+    )
+  })
 
   return (
     <div>
@@ -28,7 +83,7 @@ const Home = () => {
                 <h6>Spring / Summer Collection 2021</h6>
                 <h1>Get up to 30% Off New Arrivals</h1>
                 <div className='red_button shop_now_button'>
-                  <a href='/'>shop now</a>
+                  <Link to='/'>shop now</Link>
                 </div>
               </div>
             </div>
@@ -45,7 +100,7 @@ const Home = () => {
                 style={{ backgroundImage: "url(assets/images/banner_1.jpg)" }}
               >
                 <div className='banner_category'>
-                  <a href='/'>women's</a>
+                  <Link to='/'>women's</Link>
                 </div>
               </div>
             </div>
@@ -55,7 +110,7 @@ const Home = () => {
                 style={{ backgroundImage: "url(assets/images/banner_2.jpg)" }}
               >
                 <div className='banner_category'>
-                  <a href='/'>accessories's</a>
+                  <Link to='/'>accessories's</Link>
                 </div>
               </div>
             </div>
@@ -65,7 +120,7 @@ const Home = () => {
                 style={{ backgroundImage: "url(assets/images/banner_3.jpg)" }}
               >
                 <div className='banner_category'>
-                  <a href='/'>men's</a>
+                  <Link to='/'>men's</Link>
                 </div>
               </div>
             </div>
@@ -114,43 +169,12 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className='row'>
-            <div className='col'>
-              <div
-                className='product-grid'
-                data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }'
-              >
-                <div className='product-item'>
-                  <div className='product discount product_filter'>
-                    <div className='product_image'>
-                      <img src='assets/images/product_1.png' alt='' />
-                    </div>
-                    <div className='favorite favorite_left'></div>
-                    <div className='product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center'>
-                      <span>-$20</span>
-                    </div>
-                    <div className='product_info'>
-                      <h6 className='product_name'>
-                        <a href='/'>
-                          Fujifilm X100T 16 MP Digital Camera (Silver)
-                        </a>
-                      </h6>
-                      <div className='product_price'>
-                        $520.00<span>$590.00</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='red_button add_to_cart_button'>
-                    <a href='/'>add to cart</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
+          <div className='row'>{productsDiv}</div>
         </div>
       </div>
 
-      <div className='deal_ofthe_week'>
+      {/* <div className='deal_ofthe_week'>
         <div className='container'>
           <div className='row align-items-center'>
             <div className='col-lg-6'>
@@ -165,15 +189,15 @@ const Home = () => {
                 </div>
 
                 <div className='red_button deal_ofthe_week_button'>
-                  <a href='/'>shop now</a>
+                  <Link to='/'>shop now</Link>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <div className='best_sellers'>
+      {/* <div className='best_sellers'>
         <div className='container'>
           <div className='row'>
             <div className='col text-center'>
@@ -198,9 +222,9 @@ const Home = () => {
                         </div>
                         <div className='product_info'>
                           <h6 className='product_name'>
-                            <a href='/'>
+                            <Link to='/'>
                               Fujifilm X100T 16 MP Digital Camera (Silver)
-                            </a>
+                            </Link>
                           </h6>
                           <div className='product_price'>
                             $520.00<span>$590.00</span>
@@ -222,9 +246,9 @@ const Home = () => {
                         </div>
                         <div className='product_info'>
                           <h6 className='product_name'>
-                            <a href='/'>
+                            <Link to='/'>
                               Samsung CF591 Series Curved 27-Inch FHD Monitor
-                            </a>
+                            </Link>
                           </h6>
                           <div className='product_price'>$610.00</div>
                         </div>
@@ -241,9 +265,9 @@ const Home = () => {
                         <div className='favorite'></div>
                         <div className='product_info'>
                           <h6 className='product_name'>
-                            <a href='/'>
+                            <Link to='/'>
                               Blue Yeti USB Microphone Blackout Edition
-                            </a>
+                            </Link>
                           </h6>
                           <div className='product_price'>$120.00</div>
                         </div>
@@ -263,9 +287,9 @@ const Home = () => {
                         <div className='favorite favorite_left'></div>
                         <div className='product_info'>
                           <h6 className='product_name'>
-                            <a href='/'>
+                            <Link to='/'>
                               DYMO LabelWriter 450 Turbo Thermal Label Printer
-                            </a>
+                            </Link>
                           </h6>
                           <div className='product_price'>$410.00</div>
                         </div>
@@ -282,7 +306,7 @@ const Home = () => {
                         <div className='favorite'></div>
                         <div className='product_info'>
                           <h6 className='product_name'>
-                            <a href='/'>Pryma Headphones, Rose Gold & Grey</a>
+                            <Link to='/'>Pryma Headphones, Rose Gold & Grey</Link>
                           </h6>
                           <div className='product_price'>$180.00</div>
                         </div>
@@ -302,9 +326,9 @@ const Home = () => {
                         </div>
                         <div className='product_info'>
                           <h6 className='product_name'>
-                            <a href='/'>
+                            <Link to='/'>
                               Fujifilm X100T 16 MP Digital Camera (Silver)
-                            </a>
+                            </Link>
                           </h6>
                           <div className='product_price'>
                             $520.00<span>$590.00</span>
@@ -323,9 +347,9 @@ const Home = () => {
                         <div className='favorite'></div>
                         <div className='product_info'>
                           <h6 className='product_name'>
-                            <a href='/'>
+                            <Link to='/'>
                               Samsung CF591 Series Curved 27-Inch FHD Monitor
-                            </a>
+                            </Link>
                           </h6>
                           <div className='product_price'>$610.00</div>
                         </div>
@@ -342,9 +366,9 @@ const Home = () => {
                         <div className='favorite'></div>
                         <div className='product_info'>
                           <h6 className='product_name'>
-                            <a href='/'>
+                            <Link to='/'>
                               Blue Yeti USB Microphone Blackout Edition
-                            </a>
+                            </Link>
                           </h6>
                           <div className='product_price'>$120.00</div>
                         </div>
@@ -364,9 +388,9 @@ const Home = () => {
                         <div className='favorite favorite_left'></div>
                         <div className='product_info'>
                           <h6 className='product_name'>
-                            <a href='/'>
+                            <Link to='/'>
                               DYMO LabelWriter 450 Turbo Thermal Label Printer
-                            </a>
+                            </Link>
                           </h6>
                           <div className='product_price'>$410.00</div>
                         </div>
@@ -383,7 +407,7 @@ const Home = () => {
                         <div className='favorite'></div>
                         <div className='product_info'>
                           <h6 className='product_name'>
-                            <a href='/'>Pryma Headphones, Rose Gold & Grey</a>
+                            <Link to='/'>Pryma Headphones, Rose Gold & Grey</Link>
                           </h6>
                           <div className='product_price'>$180.00</div>
                         </div>
@@ -402,7 +426,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className='benefit'>
         <div className='container'>
@@ -476,9 +500,9 @@ const Home = () => {
                     Here are the trends I see coming this fall
                   </h4>
                   <span className='blog_meta'>by admin | dec 01, 2021</span>
-                  <a className='blog_more' href='/'>
+                  <Link className='blog_more' to='/'>
                     Read more
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -493,9 +517,9 @@ const Home = () => {
                     Here are the trends I see coming this fall
                   </h4>
                   <span className='blog_meta'>by admin | dec 01, 2021</span>
-                  <a className='blog_more' href='/'>
+                  <Link className='blog_more' to='/'>
                     Read more
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -510,9 +534,9 @@ const Home = () => {
                     Here are the trends I see coming this fall
                   </h4>
                   <span className='blog_meta'>by admin | dec 01, 2021</span>
-                  <a className='blog_more' href='/'>
+                  <Link className='blog_more' to='/'>
                     Read more
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -561,3 +585,29 @@ const Home = () => {
 }
 
 export default Home
+
+{
+  /* <div className='product-item'>
+        <div className='product discount product_filter'>
+          <div className='product_image'>
+            <img src='assets/images/product_1.png' alt='' />
+          </div>
+          <div className='favorite favorite_left'></div>
+          <div className='product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center'>
+            <span>-$20</span>
+          </div>
+          <div className='product_info'>
+            <h6 className='product_name'>
+              <Link to='/'>{product.name}</Link>
+            </h6>
+            <div className='product_price'>
+              $520.00<span>$590.00</span> 
+              {product.price}
+            </div>
+          </div>
+        </div>
+        <div className='red_button add_to_cart_button'>
+          <Link to='/'>add to cart</Link>
+        </div>
+      </div> */
+}

@@ -12,7 +12,6 @@ export const productsAction = (userId) => (dispatch) => {
   axiosInstance()
     .post(`/users/${userId}/products`)
     .then((response) => {
-      localStorage.token = response.data.token
       console.log("response from productsAction", response.data)
       dispatch({ type: PRODUCTS_SUCCESS, payload: response.data })
     })
