@@ -1,10 +1,16 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Link } from "react-router-dom"
 import { Input } from "semantic-ui-react"
+import { GlobalContext } from "../context/Provider"
 
 const Header = () => {
+  const {
+    authState: { auth: data },
+  } = useContext(GlobalContext)
+  const user = data.data?.data
+  console.log("user", user)
   return (
-    <header class='header'>
+    <header className='header'>
       <footer className='footer' style={{ backgroundColor: "#1e1e27" }}>
         <div className='container footerContainer'>
           <div className='row'>
@@ -68,17 +74,17 @@ const Header = () => {
           </div>
         </div>
       </footer>
-      <div class='main_nav_container'>
-        <div class='container'>
-          <div class='row'>
-            <div class='col-lg-12 text-right'>
-              <div class='logo_container'>
+      <div className='main_nav_container'>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-lg-12 text-right'>
+              <div className='logo_container'>
                 <a href='/'>
                   <span>Etsy</span>
                 </a>
               </div>
-              <nav class='navbar'>
-                <ul class='navbar_menu'>
+              <nav className='navbar'>
+                <ul className='navbar_menu'>
                   <li>
                     <Input
                       icon={{ name: "search", link: true }}
@@ -86,47 +92,57 @@ const Header = () => {
                       style={{ width: "370px" }}
                     />
                   </li>
-                  <li></li>
-                  <li>
-                    <Link to='/register'>
-                      <i className='fa fa-user-plus' aria-hidden='true'></i>{" "}
-                      Register
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to='/login'>
-                      <i className='fa fa-sign-in' aria-hidden='true'></i> Sign
-                      In
-                    </Link>
-                  </li>
+                  {!user ? (
+                    <>
+                      <li>
+                        <Link to='/register'>
+                          <i className='fa fa-user-plus' aria-hidden='true'></i>{" "}
+                          Register
+                        </Link>{" "}
+                      </li>
+                      <li>
+                        <Link to='/login'>
+                          <i className='fa fa-sign-in' aria-hidden='true'></i>{" "}
+                          SignIn{" "}
+                        </Link>{" "}
+                      </li>
+                    </>
+                  ) : (
+                    <li>
+                      <Link to='/logout'>
+                        <i className='fa fa-sign-out' aria-hidden='true'></i>{" "}
+                        Logout
+                      </Link>
+                    </li>
+                  )}
                 </ul>
-                <ul class='navbar_user'>
+                <ul className='navbar_user'>
                   <li>
                     <Link to='/favorites'>
-                      <i class='fa fa-heart' aria-hidden='true'></i>
+                      <i className='fa fa-heart' aria-hidden='true'></i>
                     </Link>
                   </li>
                   <li>
                     <Link to='/profile'>
-                      <i class='fa fa-user' aria-hidden='true'></i>
+                      <i className='fa fa-user' aria-hidden='true'></i>
                     </Link>
                   </li>
                   <li>
                     <Link to='/create-shop'>
-                      <i class='fa fa-building' aria-hidden='true'></i>
+                      <i className='fa fa-building' aria-hidden='true'></i>
                     </Link>
                   </li>
                   <li>
-                    <a href='/'>
-                      <i class='fa fa-shopping-cart' aria-hidden='true'></i>
-                      {/* <span id='checkout_items' class='checkout_items'>
+                    <a href='/cart'>
+                      <i className='fa fa-shopping-cart' aria-hidden='true'></i>
+                      {/* <span id='checkout_items' className='checkout_items'>
                         2
                       </span> */}
                     </a>
                   </li>
                 </ul>
-                <div class='hamburger_container'>
-                  <i class='fa fa-bars' aria-hidden='true'></i>
+                <div className='hamburger_container'>
+                  <i className='fa fa-bars' aria-hidden='true'></i>
                 </div>
               </nav>
             </div>

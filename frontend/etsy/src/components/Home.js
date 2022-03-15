@@ -1,16 +1,8 @@
-import React, { useContext } from "react"
-import Header from "./Header"
-import Footer from "./Footer"
-import { Link } from "react-router-dom"
-import { GlobalContext } from "../context/Provider"
+import React from "react"
 
 const Home = () => {
-  const context = useContext(GlobalContext)
-  console.log(context)
   return (
-    <>
-      <Header />
-
+    <div>
       <div
         className='main_slider'
         style={{ backgroundImage: "url(assets/images/slider_1.jpg)" }}
@@ -740,8 +732,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <Footer />
-    </>
+    </div>
   )
 }
 

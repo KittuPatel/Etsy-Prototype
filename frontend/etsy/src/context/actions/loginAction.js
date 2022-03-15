@@ -1,11 +1,11 @@
-import axiosInstance from "../../helpers/axios"
+import axiosInstance from "../../helpers/axiosInstance"
 import { LOGIN_ERROR, LOGIN_LOADING, LOGIN_SUCCESS } from "./actionTypes"
 // so actions are responsible for making api calls and tells the reducer how to update the state.
 
 export const loginAction = (user) => (dispatch) => {
   dispatch({ type: LOGIN_LOADING })
 
-  axiosInstance
+  axiosInstance()
     .post("/login", user)
     .then((response) => {
       localStorage.token = response.data.token
