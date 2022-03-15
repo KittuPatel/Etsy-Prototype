@@ -6,6 +6,7 @@ import Home from "../components/Dashboard"
 import ProfilePage from "../components/ProfilePage"
 import Favorites from "../components/Favorites"
 import Main from "../components/Main"
+import ItemOverview from "../components/ItemOverview"
 
 const routes = [
   {
@@ -40,6 +41,13 @@ const routes = [
     path: "/favorites",
     component: Favorites,
     title: "Favorites",
+    needsAuth: true,
+    exact: true,
+  },
+  {
+    path: "/product/:id",
+    component: ItemOverview,
+    title: "Product Page | Etsy",
     needsAuth: true,
     exact: true,
   },
