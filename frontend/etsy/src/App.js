@@ -1,6 +1,6 @@
 import "./App.css"
 import { BrowserRouter, Switch, Route, useHistory } from "react-router-dom"
-import Routes from "./Routes"
+// import Routes from "./Routes"
 import { GlobalProvider } from "./context/Provider"
 import routes from "./routes/index"
 import isAuthenticated from "./utils/isAuthenticated"

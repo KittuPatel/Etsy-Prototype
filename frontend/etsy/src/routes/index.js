@@ -47,7 +47,7 @@ const routes = [
     path: "/",
     component: Main,
     title: "Etsy",
-    needsAuth: true,
+    needsAuth: false,
     exact: true,
   },
 ]

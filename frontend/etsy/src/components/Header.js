@@ -7,8 +7,12 @@ const Header = () => {
   const {
     authState: { auth: data },
   } = useContext(GlobalContext)
-  const user = data.data?.data
-  console.log("user", user)
+  const {
+    globalDispatch,
+    globalState: { user },
+  } = useContext(GlobalContext)
+  // const user = data.data?.data
+  console.log("user from globalState", user)
   return (
     <header className='header'>
       <footer className='footer' style={{ backgroundColor: "#1e1e27" }}>
@@ -92,7 +96,7 @@ const Header = () => {
                       style={{ width: "370px" }}
                     />
                   </li>
-                  {!user ? (
+                  {user?.userId === null ? (
                     <>
                       <li>
                         <Link to='/register'>

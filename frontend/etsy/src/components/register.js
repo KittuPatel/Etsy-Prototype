@@ -23,7 +23,7 @@ const Register = () => {
   useEffect(() => {
     if (error) {
       console.log("error", error)
-      setErrorMsg(error.msg)
+      setErrorMsg(error)
     }
   }, [error])
 
