@@ -14,16 +14,21 @@ const Home = () => {
   } = globalState
   console.log("user from globalState", user?.userId)
   const userId = user?.userId
+
   useEffect(() => {
     console.log("products action dispatch")
     productsAction(userId)(globalDispatch)
-  }, [user])
+  }, [userId])
 
   console.log("Global State from Home", globalState)
 
-  // const handleFavProduct = (productId) => {
-  //   postFavoritesAction(productId, userId)(globalDispatch)
-  // }
+  const handleFavProduct = (productId) => {
+    if (userId) {
+      console.log("productId from handleFavProduct", productId)
+      postFavoritesAction(productId, userId)(globalDispatch)
+      console.log("global state after postFavoritesAction", globalState)
+    }
+  }
 
   const productsDiv = data?.products.map((product, index) => {
     let pageLink = `/product/${product._id}`
@@ -42,9 +47,9 @@ const Home = () => {
             </Link>
             <ul class='product-links'>
               <li>
-                {/* <button onClick={handleFavProduct(product._id)}>
+                <button onClick={handleFavProduct.bind(this, product._id)}>
                   <i class='fa fa-heart-o'></i>
-                </button> */}
+                </button>
               </li>
               <li>
                 <Link to='/'>

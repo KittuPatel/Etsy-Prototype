@@ -3,6 +3,9 @@ import {
   FAVORITES_ERROR,
   FAVORITES_LOADING,
   FAVORITES_SUCCESS,
+  ADD_FAVORITE_ITEM_LOADING,
+  ADD_FAVORITE_ITEM_SUCCESS,
+  ADD_FAVORITE_ITEM_ERROR,
   DELETE_FAVORITES_ERROR,
   DELETE_FAVORITES_LOADING,
   DELETE_FAVORITES_SUCCESS,
@@ -27,7 +30,23 @@ export const favoritesAction = (userId) => (dispatch) => {
     })
 }
 
-export const postFavoritesAction = (productId, userID) => (dispatch) => {}
+export const postFavoritesAction = (productId, userID) => (dispatch) => {
+  dispatch({ type: ADD_FAVORITE_ITEM_LOADING })
+
+  axiosInstance()
+    .post(`/users/${userID}/favorites`, { productId })
+    .then((response) => {
+      console.log("response from  postFavoritesAction", response.data)
+      dispatch({ type: ADD_FAVORITE_ITEM_SUCCESS, payload: response.data })
+    })
+    .catch((error) => {
+      console.log("error from postFavoritesAction", error)
+      dispatch({
+        type: ADD_FAVORITE_ITEM_ERROR,
+        payload: error.response ? error.response.data : "Could not connect",
+      })
+    })
+}
 // export const deleteFavoritesAction = (userId, id) => (dispatch) => {
 //   dispatch({ type: DELETE_FAVORITES_LOADING })
 //   axiosInstance()

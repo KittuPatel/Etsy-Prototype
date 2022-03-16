@@ -74,14 +74,14 @@ const Favorites = () => {
                 </h3>
                 <div class='price'>${favProduct.product.price}</div>
               </div>
-              <div className='col-2' style={{ paddingLeft: "0px" }}>
+              {/* <div className='col-2' style={{ paddingLeft: "0px" }}>
                 <button
                   class='btn btn-danger'
-                  // onClick={handleDeleteFav(favProductId)}
+                  onClick={handleDeleteFav(favProductId)}
                 >
                   <i className='fa fa-trash-o'></i>{" "}
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

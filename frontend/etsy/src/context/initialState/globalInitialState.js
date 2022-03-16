@@ -16,4 +16,9 @@ export default {
     data: null,
     error: null,
   },
+  addToFavorite: {
+    loading: null,
+    error: null,
+    data: null,
+  },
 }
