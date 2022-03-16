@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from "react"
 import { GlobalContext } from "../context/Provider"
 import { useHistory, Link } from "react-router-dom"
 import { productsAction } from "../context/actions/productsAction"
+import { postFavoritesAction } from "../context/actions/favoritesAction"
 
 const Home = () => {
   // const [productsList, setProductsList] = useState([])
@@ -20,6 +21,10 @@ const Home = () => {
 
   console.log("Global State from Home", globalState)
 
+  // const handleFavProduct = (productId) => {
+  //   postFavoritesAction(productId, userId)(globalDispatch)
+  // }
+
   const productsDiv = data?.products.map((product, index) => {
     let pageLink = `/product/${product._id}`
     return (
@@ -37,14 +42,9 @@ const Home = () => {
             </Link>
             <ul class='product-links'>
               <li>
-                <Link to='/'>
-                  <i class='fa fa-heart'></i>
-                </Link>
-              </li>
-              <li>
-                <Link to='/'>
-                  <i class='fa fa-random'></i>
-                </Link>
+                {/* <button onClick={handleFavProduct(product._id)}>
+                  <i class='fa fa-heart-o'></i>
+                </button> */}
               </li>
               <li>
                 <Link to='/'>
@@ -52,7 +52,7 @@ const Home = () => {
                 </Link>
               </li>
             </ul>
-            <Link to='/' class='product-view'>
+            <Link to={pageLink} class='product-view'>
               <i class='fa fa-search'></i>
             </Link>
           </div>

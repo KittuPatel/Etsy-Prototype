@@ -1,9 +1,9 @@
 {
     "DB":{
-        "host" : "etsy-database.caphir2hzg3k.us-east-1.rds.amazonaws.com",
+        "host" : "etsydb.ciubgzni56ko.us-east-1.rds.amazonaws.com",
         "username" : "admin",
         "password" : "admin123",
         "port" : "3306",
-        "database" : "etsydatabase"
+        "database" : "etsydb"
     }
 }

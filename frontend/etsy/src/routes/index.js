@@ -31,7 +31,7 @@ const routes = [
     exact: true,
   },
   {
-    path: "/profile",
+    path: "/editprofile",
     component: ProfilePage,
     title: "Profile Page",
     needsAuth: true,

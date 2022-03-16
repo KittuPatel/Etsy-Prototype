@@ -6,13 +6,11 @@ import { GlobalContext } from "../context/Provider"
 const Header = () => {
   const {
     authState: { auth: data },
-  } = useContext(GlobalContext)
-  const {
     globalDispatch,
     globalState: { user },
   } = useContext(GlobalContext)
   // const user = data.data?.data
-  console.log("user from globalState", user)
+  console.log("user from globalState | Header", user)
   return (
     <header className='header'>
       <footer className='footer' style={{ backgroundColor: "#1e1e27" }}>
@@ -31,37 +29,37 @@ const Header = () => {
                   <div className='top_nav_right'>
                     <ul className='top_nav_menu'>
                       <li className='language'>
-                        <a href='/'>
+                        <Link to='/'>
                           United States
                           {/* <i className="fa fa-angle-down"></i> */}
-                        </a>
+                        </Link>
                         {/* <ul className="language_selection">
-                                        <li><a href="/">French</a></li>
-                                        <li><a href="/">Italian</a></li>
-                                        <li><a href="/">German</a></li>
-                                        <li><a href="/">Spanish</a></li>
+                                        <li><Link to="/">French</Link></li>
+                                        <li><Link to="/">Italian</Link></li>
+                                        <li><Link to="/">German</Link></li>
+                                        <li><Link to="/">Spanish</Link></li>
                                     </ul> */}
                       </li>
                       <li className='currency'>
-                        <a href='/'>
+                        <Link to='/'>
                           usd
                           {/* <i className="fa fa-angle-down"></i> */}
-                        </a>
+                        </Link>
                         {/* <ul className="currency_selection">
-                                        <li><a href="/">cad</a></li>
-                                        <li><a href="/">aud</a></li>
-                                        <li><a href="/">eur</a></li>
-                                        <li><a href="/">gbp</a></li>
+                                        <li><Link to="/">cad</Link></li>
+                                        <li><Link to="/">aud</Link></li>
+                                        <li><Link to="/">eur</Link></li>
+                                        <li><Link to="/">gbp</Link></li>
                                     </ul> */}
                       </li>
                       <li className='account'>
-                        <a href='/'>
+                        <Link to='/'>
                           My Account
                           <i className='fa fa-angle-down'></i>
-                        </a>
+                        </Link>
                         {/* <ul className="account_selection">
-                                        <li><a href="/"><i className="fa fa-sign-in" aria-hidden="true"></i>Sign In</a></li>
-                                        <li><a href=""><i className="fa fa-user-plus" aria-hidden="true"></i>Register</a></li>
+                                        <li><Link to="/"><i className="fa fa-sign-in" aria-hidden="true"></i>Sign In</Link></li>
+                                        <li><Link to=""><i className="fa fa-user-plus" aria-hidden="true"></i>Register</Link></li>
                                     </ul> */}
                       </li>
                     </ul>
@@ -83,9 +81,9 @@ const Header = () => {
           <div className='row'>
             <div className='col-lg-12 text-right'>
               <div className='logo_container'>
-                <a href='/'>
+                <Link to='/'>
                   <span>Etsy</span>
-                </a>
+                </Link>
               </div>
               <nav className='navbar'>
                 <ul className='navbar_menu'>
@@ -115,7 +113,7 @@ const Header = () => {
                     <li>
                       <Link to='/logout'>
                         <i className='fa fa-sign-out' aria-hidden='true'></i>{" "}
-                        Logout
+                        {/* Logout */}
                       </Link>
                     </li>
                   )}
@@ -126,23 +124,23 @@ const Header = () => {
                       <i className='fa fa-heart' aria-hidden='true'></i>
                     </Link>
                   </li>
-                  <li>
-                    <Link to='/profile'>
+                  {/* <li>
+                    <Link to='/editprofile'>
                       <i className='fa fa-user' aria-hidden='true'></i>
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link to='/create-shop'>
                       <i className='fa fa-building' aria-hidden='true'></i>
                     </Link>
                   </li>
                   <li>
-                    <a href='/cart'>
+                    <Link to='/cart'>
                       <i className='fa fa-shopping-cart' aria-hidden='true'></i>
                       {/* <span id='checkout_items' className='checkout_items'>
                         2
                       </span> */}
-                    </a>
+                    </Link>
                   </li>
                 </ul>
                 <div className='hamburger_container'>
@@ -161,68 +159,68 @@ const Header = () => {
         <div className='hamburger_menu_content text-right'>
           <ul className='menu_top_nav'>
             <li className='menu_item has-children'>
-              <a href='/'>
+              <Link to='/'>
                 usd
                 <i className='fa fa-angle-down'></i>
-              </a>
+              </Link>
               <ul className='menu_selection'>
                 <li>
-                  <a href='/'>cad</a>
+                  <Link to='/'>cad</Link>
                 </li>
                 <li>
-                  <a href='/'>aud</a>
+                  <Link to='/'>aud</Link>
                 </li>
                 <li>
-                  <a href='/'>eur</a>
+                  <Link to='/'>eur</Link>
                 </li>
                 <li>
-                  <a href='/'>gbp</a>
+                  <Link to='/'>gbp</Link>
                 </li>
               </ul>
             </li>
             <li className='menu_item has-children'>
-              <a href='/'>
+              <Link to='/'>
                 English
                 <i className='fa fa-angle-down'></i>
-              </a>
+              </Link>
               <ul className='menu_selection'>
                 <li>
-                  <a href='/'>French</a>
+                  <Link to='/'>French</Link>
                 </li>
                 <li>
-                  <a href='/'>Italian</a>
+                  <Link to='/'>Italian</Link>
                 </li>
                 <li>
-                  <a href='/'>German</a>
+                  <Link to='/'>German</Link>
                 </li>
                 <li>
-                  <a href='/'>Spanish</a>
+                  <Link to='/'>Spanish</Link>
                 </li>
               </ul>
             </li>
             {/* <li className="menu_item has-children">
-            {/* <a href="#">
+            {/* <Link to="#">
               My Account
               <i className="fa fa-angle-down"></i>
-            </a> */}
+            </Link> */}
             {/* <ul className="menu_selection">  */}
 
             {/* </ul> */}
             {/* </li> */}
             <li className='menu_item'>
-              <a href='/'>home</a>
+              <Link to='/'>home</Link>
             </li>
             <li className='menu_item'>
-              <a href='/'>shop</a>
+              <Link to='/'>shop</Link>
             </li>
             <li className='menu_item'>
-              <a href='/'>promotion</a>
+              <Link to='/'>promotion</Link>
             </li>
             <li className='menu_item'>
-              <a href='/'>pages</a>
+              <Link to='/'>pages</Link>
             </li>
             <li className='menu_item'>
-              <a href='/'>blog</a>
+              <Link to='/'>blog</Link>
             </li>
             <li className='menu_item'></li>
             <li className='menu_item'>

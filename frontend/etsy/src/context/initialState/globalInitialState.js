@@ -11,4 +11,9 @@ export default {
   categories: {
     loading: false,
   },
+  favorites: {
+    loading: null,
+    data: null,
+    error: null,
+  },
 }
