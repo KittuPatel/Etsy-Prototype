@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-const getOrders = async (req, res) => {
+async function getOrders(req, res) {
   try {
     let orderData = await query("SELECT * FROM orders WHERE createdBy = ?", req.params.userId);
     let productIds = _.map(orderData, 'productId');
@@ -23,8 +23,8 @@ let endpoints = {
   "/users/:userId/orders": [
     {
       method: "GET",
-      callbacks: [getOrders],
-    },
+      callbacks: [getOrders]
+    }
   ]
 };
 

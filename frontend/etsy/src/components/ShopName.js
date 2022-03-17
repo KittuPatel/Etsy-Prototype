@@ -2,19 +2,75 @@ import React, { useContext, useState } from "react"
 import Header from "./Header"
 import { GlobalContext } from "../context/Provider"
 import { checkShopNameAction } from "../context/actions/shopAction"
+import axiosInstance from "../helpers/axiosInstance"
+import { useHistory } from "react-router"
 
 const ShopName = () => {
   const [shopName, setShopName] = useState("")
-
+  const [shopBtn, setShopBtn] = useState(true)
+  const [checkAvailabiltyState, setCheckAvailabiltyState] = useState({
+    loading: null,
+    error: null,
+    available: null,
+  })
   const { globalDispatch, globalState } = useContext(GlobalContext)
-  const { user } = globalState
+  const history = useHistory()
+  const {
+    user,
+    // checkShopName: { loading, error, data },
+  } = globalState
   const userId = user?.userId
   const handleShopNameChange = (e) => {
     setShopName(e.target.value)
+    setShopBtn(true)
   }
   const checkAvailabilityHandler = () => {
     console.log("shopName", shopName)
-    checkShopNameAction(userId, shopName)(globalDispatch)
+    // checkShopNameAction(userId, shopName)(globalDispatch)
+    setCheckAvailabiltyState({ ...checkAvailabiltyState, loading: true })
+    axiosInstance()
+      .get(`/users/${userId}/shop/checkavailability?shopname=${shopName}`)
+      .then((response) => {
+        console.log("response from checkShopNameAction", response.data)
+        setCheckAvailabiltyState({
+          ...checkAvailabiltyState,
+          available: response.data.available,
+          loading: false,
+        })
+        if (response.data.available == true) {
+          setShopBtn(false)
+        }
+      })
+      .catch((error) => {
+        console.log("error from checkShopNameAction", error)
+        setCheckAvailabiltyState({
+          ...checkAvailabiltyState,
+          error: error,
+          loading: false,
+        })
+      })
+    console.log("checkAvailabiltyState", checkAvailabiltyState)
+  }
+
+  const handleCreateShop = () => {
+    console.log("handleCreateShop")
+
+    const data = {
+      name: shopName,
+      imageUrl:
+        "https://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/shop-icon.png",
+    }
+    console.log("data from handleCreateShop", data)
+    axiosInstance()
+      .post(`/users/${userId}/shops`, data)
+      .then((response) => {
+        console.log("response from create shop", response)
+        console.log("shop id", response.data.shopId)
+        history.push(`/users/${userId}/shops/${response.data.shopId}`)
+      })
+      .catch((error) => {
+        console.log("error from create shop", error)
+      })
   }
 
   return (
@@ -58,6 +114,26 @@ const ShopName = () => {
                 listings throughout Etsy.
               </p>
             </div>
+            <br />
+            {checkAvailabiltyState.loading && <p>Loading</p>}
+            {checkAvailabiltyState.error && <p>Oops, Something went wrong.</p>}
+            {checkAvailabiltyState.available == true ? (
+              <div class='alert alert-success' role='alert'>
+                Shop Name Available!
+              </div>
+            ) : checkAvailabiltyState.available == false ? (
+              <div class='alert alert-danger' role='alert'>
+                Shop Name Not Available!
+              </div>
+            ) : null}
+            <br />
+            <button
+              onClick={handleCreateShop}
+              disabled={shopBtn}
+              className='btn btn-dark w-100'
+            >
+              Create Shop
+            </button>
           </div>
           {/* <div className='col-xl-3 col-lg-3 col-md-3'></div> */}
         </div>

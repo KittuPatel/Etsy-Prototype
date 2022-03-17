@@ -6,8 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saicharancherry/Etsy.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/saicharancherry/Etsy/issues"
+  },
+  "homepage": "https://github.com/saicharancherry/Etsy#readme",
   "type": "module",
   "dependencies": {
     "bcrypt": "^5.0.1",

@@ -2,6 +2,7 @@ import Register from "../components/Register"
 import Login from "../components/Login"
 import App from "../App"
 import ShopName from "../components/ShopName"
+import ShopHome from "../components/ShopHome"
 import Home from "../components/Dashboard"
 import ProfilePage from "../components/ProfilePage"
 import Favorites from "../components/Favorites"
@@ -27,6 +28,13 @@ const routes = [
     path: "/create-shop",
     component: ShopName,
     title: "Create Shop",
+    needsAuth: true,
+    exact: true,
+  },
+  {
+    path: "/users/:userId/shops/:shopId",
+    component: ShopHome,
+    title: "Shop | Etsy",
     needsAuth: true,
     exact: true,
   },

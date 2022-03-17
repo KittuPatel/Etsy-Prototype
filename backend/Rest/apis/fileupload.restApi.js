@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(
     import.meta.url);
 const __dirname = path.dirname(__filename);
-var baseUrl = 'https://8026-2600-1700-65aa-d910-74a0-45c6-f332-f7b8.ngrok.io'
+var baseUrl = 'http://localhost:3001'
 let fileName;
 const storage = multer.diskStorage({
     destination: __dirname + "/../../public/uploads/",

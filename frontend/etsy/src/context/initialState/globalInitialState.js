@@ -21,4 +21,10 @@ export default {
     error: null,
     data: null,
   },
+  // store user shop details
+  shop: {
+    loading: null,
+    data: null,
+    error: null,
+  },
 }

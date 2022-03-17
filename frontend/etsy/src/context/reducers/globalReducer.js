@@ -134,35 +134,6 @@ const globalReducer = (state, action) => {
     //     },
     //   }
 
-    case CHECK_SHOP_NAME_LOADING:
-      return {
-        ...state,
-        checkShopName: {
-          ...state.checkShopName,
-          loading: true,
-          error: false,
-        },
-      }
-    case CHECK_SHOP_NAME_SUCCESS:
-      return {
-        ...state,
-        checkShopName: {
-          ...state.checkShopName,
-          loading: false,
-          error: false,
-          data: action.payload,
-        },
-      }
-    case CHECK_SHOP_NAME_ERROR:
-      return {
-        ...state,
-        checkShopName: {
-          ...state.checkShopName,
-          loading: false,
-          error: action.payload,
-        },
-      }
-
     case LOGOUT_USER:
       return {
         ...state,

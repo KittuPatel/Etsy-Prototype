@@ -15,6 +15,17 @@ const __dirname = path.dirname(__filename);
 
 var workers = 1 || process.env.WORKERS || os.cpus().length;
 
+var whitelist = ['http://localhost:3001', 'https://8026-2600-1700-65aa-d910-74a0-45c6-f332-f7b8.ngrok.io', 'http://example2.com']
+var corsOptions = {
+  origin: function (origin, callback) {
+    // if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    // } else {
+    //   callback(new Error('Not allowed by CORS'))
+    // }
+  }
+}
+
 async function createServer() {
     process.on('unhandledRejection', (err) => {
         console.log("unhandledRejection : ", err);
@@ -25,8 +36,9 @@ async function createServer() {
     var app = express({ mergeParams: true });
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
-    app.use(cors())
-    app.use('/resources', express.static(__dirname + '/public/uploads'));
+    app.use(cors( {
+        origin: 'http://localhost:3000'
+    }))
     await initdb()
     await AuthTokenMiddleWare(app)
     await initRestApis(app)
