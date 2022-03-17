@@ -6,6 +6,9 @@ import {
   CHECK_SHOP_NAME_LOADING,
   CHECK_SHOP_NAME_SUCCESS,
   CHECK_SHOP_NAME_ERROR,
+  GET_SHOP_LOADING,
+  GET_SHOP_SUCCESS,
+  GET_SHOP_ERROR,
 } from "../actions/actionTypes"
 
 import globalInitialState from "../initialState/globalInitialState"
@@ -133,6 +136,35 @@ const globalReducer = (state, action) => {
     //       error: action.payload,
     //     },
     //   }
+
+    case GET_SHOP_LOADING:
+      return {
+        ...state,
+        shop: {
+          ...state.shop,
+          loading: true,
+          error: false,
+        },
+      }
+    case GET_SHOP_SUCCESS:
+      return {
+        ...state,
+        shop: {
+          ...state.shop,
+          loading: false,
+          error: false,
+          data: action.payload,
+        },
+      }
+    case GET_SHOP_ERROR:
+      return {
+        ...state,
+        shop: {
+          ...state.shop,
+          loading: false,
+          error: action.payload,
+        },
+      }
 
     case LOGOUT_USER:
       return {

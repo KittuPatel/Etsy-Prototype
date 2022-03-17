@@ -10,13 +10,13 @@ const Header = () => {
     authState: { auth: data },
     authDispatch,
     globalDispatch,
-    globalState: { user },
+    globalState,
   } = useContext(GlobalContext)
   // const user = data.data?.data
 
   const history = useHistory()
   console.log("user from authState Header", data)
-  console.log("user from globalState Header", user)
+  console.log("from globalState Header", globalState)
 
   // useEffect(() => {
 
@@ -26,6 +26,8 @@ const Header = () => {
     logout(history)(globalDispatch)
     logout(history)(authDispatch)
   }
+
+  const shopLink = `/users/${globalState.user.userId}/shops/${globalState.user.shopId}`
 
   return (
     <header className='header'>
@@ -110,7 +112,7 @@ const Header = () => {
                       style={{ width: "370px" }}
                     />
                   </li>
-                  {user?.userId === null ? (
+                  {globalState.user?.userId === null ? (
                     <>
                       <li>
                         <Link to='/register'>
@@ -138,11 +140,24 @@ const Header = () => {
                       <i className='fa fa-user' aria-hidden='true'></i>
                     </Link>
                   </li> */}
-                  <li>
-                    <Link to='/create-shop'>
-                      <i className='fa fa-building' aria-hidden='true'></i>
-                    </Link>
-                  </li>
+                  {globalState.user?.shopId === null ? (
+                    <li>
+                      <Link to='/create-shop'>
+                        <i
+                          className='fa fa-plus-square-o'
+                          aria-hidden='true'
+                        ></i>{" "}
+                        Create Shop
+                      </Link>
+                    </li>
+                  ) : (
+                    <li>
+                      <Link to={shopLink}>
+                        <i className='fa fa-building' aria-hidden='true'></i>{" "}
+                        Shop
+                      </Link>
+                    </li>
+                  )}
                   <li>
                     <Link to='/cart'>
                       <i className='fa fa-shopping-cart' aria-hidden='true'></i>
@@ -153,7 +168,7 @@ const Header = () => {
                   </li>
                 </ul>
 
-                {user?.userId !== null ? (
+                {globalState.user?.userId !== null ? (
                   <ul className='navbar_menu'>
                     <li>
                       <button onClick={handleLogout} className='btn btn-danger'>

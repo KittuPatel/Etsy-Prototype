@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react"
 import Header from "./Header"
 import { GlobalContext } from "../context/Provider"
-import { checkShopNameAction } from "../context/actions/shopAction"
+import { checkShopNameAction, shopAction } from "../context/actions/shopAction"
 import axiosInstance from "../helpers/axiosInstance"
 import { useHistory } from "react-router"
 
@@ -66,6 +66,7 @@ const ShopName = () => {
       .then((response) => {
         console.log("response from create shop", response)
         console.log("shop id", response.data.shopId)
+        shopAction(userId, response.data.shopId)(globalDispatch)
         history.push(`/users/${userId}/shops/${response.data.shopId}`)
       })
       .catch((error) => {

@@ -2,6 +2,7 @@ export default {
   user: {
     username: null,
     userId: null,
+    shopId: null,
   },
   products: {
     loading: null,
