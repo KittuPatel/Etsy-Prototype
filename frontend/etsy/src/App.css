@@ -2,8 +2,26 @@ a {
   color: #f96332;
 }
 
+html,
+body {
+  overflow: auto;
+}
+
 btn {
   cursor: pointer;
+}
+
+.nameShop {
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  margin: 20px auto;
+}
+
+.nameShopContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .m-t-5 {

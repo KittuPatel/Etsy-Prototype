@@ -1,16 +1,32 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { Input } from "semantic-ui-react"
+import logout from "../context/actions/logout"
 import { GlobalContext } from "../context/Provider"
+import { useHistory } from "react-router-dom"
 
 const Header = () => {
   const {
     authState: { auth: data },
+    authDispatch,
     globalDispatch,
     globalState: { user },
   } = useContext(GlobalContext)
   // const user = data.data?.data
-  console.log("user from globalState | Header", user)
+
+  const history = useHistory()
+  console.log("user from authState Header", data)
+  console.log("user from globalState Header", user)
+
+  // useEffect(() => {
+
+  // }, [])
+
+  const handleLogout = () => {
+    logout(history)(globalDispatch)
+    logout(history)(authDispatch)
+  }
+
   return (
     <header className='header'>
       <footer className='footer' style={{ backgroundColor: "#1e1e27" }}>
@@ -109,14 +125,7 @@ const Header = () => {
                         </Link>{" "}
                       </li>
                     </>
-                  ) : (
-                    <li>
-                      <Link to='/logout'>
-                        <i className='fa fa-sign-out' aria-hidden='true'></i>{" "}
-                        {/* Logout */}
-                      </Link>
-                    </li>
-                  )}
+                  ) : null}
                 </ul>
                 <ul className='navbar_user'>
                   <li>
@@ -143,6 +152,18 @@ const Header = () => {
                     </Link>
                   </li>
                 </ul>
+
+                {user?.userId !== null ? (
+                  <ul className='navbar_menu'>
+                    <li>
+                      <button onClick={handleLogout} className='btn btn-danger'>
+                        <i className='fa fa-sign-out' aria-hidden='true'></i>{" "}
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
+                ) : null}
+
                 <div className='hamburger_container'>
                   <i className='fa fa-bars' aria-hidden='true'></i>
                 </div>

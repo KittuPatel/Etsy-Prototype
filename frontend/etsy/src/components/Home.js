@@ -22,13 +22,13 @@ const Home = () => {
 
   console.log("Global State from Home", globalState)
 
-  const handleFavProduct = (productId) => {
-    if (userId) {
-      console.log("productId from handleFavProduct", productId)
-      postFavoritesAction(productId, userId)(globalDispatch)
-      console.log("global state after postFavoritesAction", globalState)
-    }
-  }
+  // const handleFavProduct = (productId) => {
+  //   if (userId) {
+  //     console.log("productId from handleFavProduct", productId)
+  //     postFavoritesAction(productId, userId)(globalDispatch)
+  //     console.log("global state after postFavoritesAction", globalState)
+  //   }
+  // }
 
   const productsDiv = data?.products.map((product, index) => {
     let pageLink = `/product/${product._id}`
@@ -46,11 +46,11 @@ const Home = () => {
               <img class='img-2' src={product.imageUrl} />
             </Link>
             <ul class='product-links'>
-              <li>
+              {/* <li>
                 <button onClick={handleFavProduct.bind(this, product._id)}>
                   <i class='fa fa-heart-o'></i>
                 </button>
-              </li>
+              </li> */}
               <li>
                 <Link to='/'>
                   <i class='fa fa-shopping-cart'></i>

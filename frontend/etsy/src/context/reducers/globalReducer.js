@@ -2,7 +2,14 @@ import {
   ADD_FAVORITE_ITEM_LOADING,
   ADD_FAVORITE_ITEM_ERROR,
   ADD_FAVORITE_ITEM_SUCCESS,
+  LOGOUT_USER,
+  CHECK_SHOP_NAME_LOADING,
+  CHECK_SHOP_NAME_SUCCESS,
+  CHECK_SHOP_NAME_ERROR,
 } from "../actions/actionTypes"
+
+import globalInitialState from "../initialState/globalInitialState"
+import authInitialState from "../initialState/authInitialState"
 
 const globalReducer = (state, action) => {
   switch (action.type) {
@@ -126,6 +133,41 @@ const globalReducer = (state, action) => {
     //       error: action.payload,
     //     },
     //   }
+
+    case CHECK_SHOP_NAME_LOADING:
+      return {
+        ...state,
+        checkShopName: {
+          ...state.checkShopName,
+          loading: true,
+          error: false,
+        },
+      }
+    case CHECK_SHOP_NAME_SUCCESS:
+      return {
+        ...state,
+        checkShopName: {
+          ...state.checkShopName,
+          loading: false,
+          error: false,
+          data: action.payload,
+        },
+      }
+    case CHECK_SHOP_NAME_ERROR:
+      return {
+        ...state,
+        checkShopName: {
+          ...state.checkShopName,
+          loading: false,
+          error: action.payload,
+        },
+      }
+
+    case LOGOUT_USER:
+      return {
+        ...state,
+        ...globalInitialState,
+      }
     default:
       return state
   }
