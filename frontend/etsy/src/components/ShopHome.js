@@ -5,45 +5,71 @@ import { useHistory, useParams } from "react-router"
 import { shopAction } from "../context/actions/shopAction"
 import { Dimmer, Loader } from "semantic-ui-react"
 import axiosInstance from "../helpers/axiosInstance"
-import ProductCard from "./widgets/ProductCard"
 import axios from "axios"
+import ShopProductCard from "./widgets/ShopProductCard"
+import { Modal as BtModal, Button as BtButton } from "react-bootstrap"
+import EditForm from "./widgets/EditForm"
 
 const ShopHome = () => {
   const history = useHistory()
   const { userId, shopId } = useParams()
-  const [isOwner, setIsOwner] = useState(false)
-  const shopData = {}
+  const [isOwner, setIsOwner] = useState(null)
+  const shopData = {
+    shopIds: [shopId],
+  }
   const [addItemData, setAddItemData] = useState({})
   const [shopProducts, setShopProducts] = useState([])
   const [submitError, setSubmitError] = useState("")
   const [addedItem, setAddedItem] = useState(false)
   const [categories, setCategories] = useState([])
   const [closeModal, setCloseModal] = useState(false)
+  const [editModalIsOpen, setEditModalIsOpen] = useState(false)
   const { globalDispatch, globalState } = useContext(GlobalContext)
   const {
     shop: { data, loading, error },
   } = globalState
   useEffect(() => {
-    shopAction(userId, shopId)(globalDispatch)
-
-    if (data?.createdBy === userId) {
-      setIsOwner(true)
-    } else {
-      setIsOwner(false)
-    }
     // getShopProductsAction(userId, shopData)(globalDispatch)
+    //  {{host}}/users/{{userId}}/shops/{{shopId}}/products
+    const userDetails = JSON.parse(localStorage.getItem("userDetails"))
     axiosInstance()
       .post(`/users/${userId}/products`, shopData)
       .then((response) => {
         console.log("response from shop products", response.data)
         setShopProducts(response.data.products)
+        if (userDetails?.shopId === shopId) {
+          setIsOwner(true)
+        } else {
+          setIsOwner(false)
+        }
       })
+
+    shopAction(userId, shopId)(globalDispatch)
   }, [addedItem])
 
-  const productsDiv = shopProducts?.map((product, index) => {
-    let pageLink = `/product/${product._id}`
-    return <ProductCard product={product} key={index} pageLink={pageLink} />
-  })
+  const openBtModal = () => setEditModalIsOpen(true)
+  const closeBtModal = () => setEditModalIsOpen(false)
+
+  const handleEdit = (productId) => {
+    // users/${userId}/products/${productId}
+    console.log("product", productId)
+    axiosInstance()
+      .get(`/users/${userId}/shops/${shopId}/categories`)
+      .then((response) => {
+        console.log("response for categories", response.data)
+        setCategories(response.data.categories)
+      })
+      .catch((error) => {
+        console.log("error", error)
+        setSubmitError("Could not get categories. Please try again later.")
+      })
+    openBtModal()
+    console.log(editModalIsOpen)
+  }
+
+  // const handleEditItemInputChange
+
+  const handleEditItemSubmit = (e) => {}
 
   const handleAddItemInputChange = (e) => {
     setAddItemData({
@@ -129,6 +155,18 @@ const ShopHome = () => {
       setSubmitError("Please fill all the fields.")
     }
   }
+
+  const productsDiv = shopProducts?.map((product, index) => {
+    let pageLink = `/product/${product._id}`
+    return (
+      <ShopProductCard
+        product={product}
+        key={index}
+        pageLink={pageLink}
+        handleEdit={handleEdit}
+      />
+    )
+  })
 
   return (
     <div>
@@ -364,6 +402,25 @@ const ShopHome = () => {
                   </div>
                 </div>
               </div>
+              <BtModal show={editModalIsOpen} onHide={closeBtModal}>
+                <BtModal.Header closeButton>
+                  <BtModal.Title>Edit Item</BtModal.Title>
+                </BtModal.Header>
+                <BtModal.Body>
+                  <EditForm
+                    // handleEditItemInputChange={handleEditItemInputChange}
+                    handleAddItemUpload={handleAddItemUpload}
+                  />
+                </BtModal.Body>
+                <BtModal.Footer>
+                  <BtButton variant='secondary' onClick={closeBtModal}>
+                    Close
+                  </BtButton>
+                  <BtButton variant='primary' onClick={handleEditItemSubmit}>
+                    Save Changes
+                  </BtButton>
+                </BtModal.Footer>
+              </BtModal>
               <div className='row'>{productsDiv}</div>
             </div>
           </div>
