@@ -6,13 +6,19 @@ import { shopAction } from "../context/actions/shopAction"
 import { Dimmer, Loader } from "semantic-ui-react"
 import axiosInstance from "../helpers/axiosInstance"
 import ProductCard from "./widgets/ProductCard"
+import axios from "axios"
 
 const ShopHome = () => {
   const history = useHistory()
   const { userId, shopId } = useParams()
   const [isOwner, setIsOwner] = useState(false)
   const shopData = {}
+  const [addItemData, setAddItemData] = useState({})
   const [shopProducts, setShopProducts] = useState([])
+  const [submitError, setSubmitError] = useState("")
+  const [addedItem, setAddedItem] = useState(false)
+  const [categories, setCategories] = useState([])
+  const [closeModal, setCloseModal] = useState(false)
   const { globalDispatch, globalState } = useContext(GlobalContext)
   const {
     shop: { data, loading, error },
@@ -32,12 +38,97 @@ const ShopHome = () => {
         console.log("response from shop products", response.data)
         setShopProducts(response.data.products)
       })
-  }, [])
+  }, [addedItem])
 
   const productsDiv = shopProducts?.map((product, index) => {
     let pageLink = `/product/${product._id}`
     return <ProductCard product={product} key={index} pageLink={pageLink} />
   })
+
+  const handleAddItemInputChange = (e) => {
+    setAddItemData({
+      ...addItemData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleAddNewItemBtnClick = () => {
+    // {{host}}/users/{{userId}}/shops/{{shopId}}/categories
+    axiosInstance()
+      .get(`/users/${userId}/shops/${shopId}/categories`)
+      .then((response) => {
+        console.log("response for categories", response.data)
+        setCategories(response.data.categories)
+      })
+      .catch((error) => {
+        console.log("error", error)
+        setSubmitError("Could not get categories. Please try again later.")
+      })
+  }
+
+  const handleAddItemUpload = (e) => {
+    e.preventDefault()
+    const formData = new FormData()
+    formData.append("myImage", e.target.files[0])
+    console.log(e.target.files[0])
+    console.log(formData)
+    axios({
+      method: "post",
+      url: "https://beea-2600-1700-65aa-d910-6abc-c43c-445c-9e63.ngrok.io/upload",
+      data: formData,
+      headers: {
+        "Content-Type":
+          "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+      },
+    })
+      .then((response) => {
+        console.log("response from upload", response.data)
+        setAddItemData({
+          ...addItemData,
+          imageUrl: response.data.imageUrl,
+        })
+      })
+      .catch((error) => {
+        console.log("error while uploading", error)
+        setAddItemData({
+          ...addItemData,
+          imageUrl:
+            "https://cdn.shopify.com/s/files/1/0550/2595/9111/products/placeholder-images-image_large_fdf08b50-ae9b-476d-bce2-aa57319b6b67_600x.png?v=1634637556",
+        })
+      })
+  }
+
+  const handleAddItemSubmit = (e) => {
+    e.preventDefault()
+    console.log("addItemData", addItemData)
+    setSubmitError(false)
+    const { name, description, price, imageUrl, quantity, categoryId } =
+      addItemData
+    if (name && description && price && imageUrl && quantity && categoryId) {
+      //  {{host}}/users/{{userId}}/shops/{{shopId}}/products
+      axiosInstance()
+        .post(`/users/${userId}/shops/${shopId}/products`, addItemData)
+        .then((response) => {
+          console.log("response from shop products", response.data)
+          // setShopProducts(response.data.products)
+          setAddedItem((prevState) => !prevState)
+          setAddItemData({
+            name: "",
+            description: "",
+            price: "",
+            imageUrl: "",
+            quantity: "",
+            categoryId: "",
+          })
+        })
+        .catch((error) => {
+          console.log("error while uploading", error)
+        })
+      setCloseModal(true)
+    } else {
+      setSubmitError("Please fill all the fields.")
+    }
+  }
 
   return (
     <div>
@@ -117,9 +208,160 @@ const ShopHome = () => {
                   <h4>Shop Items</h4>
                 </div>
                 <div className='col-md-2 float-right'>
-                  <button className='btn btn-dark btn-sm w-100'>
+                  <button
+                    className='btn btn-dark btn-sm w-100'
+                    data-toggle='modal'
+                    data-target='#addItemModal'
+                    onClick={handleAddNewItemBtnClick}
+                  >
                     <i className='fa fa-plus'></i> Add New Item
                   </button>
+
+                  <div
+                    class='modal fade'
+                    id='addItemModal'
+                    tabIndex='-1'
+                    role='dialog'
+                    aria-labelledby='exampleModalLabel'
+                    aria-hidden='true'
+                  >
+                    <div
+                      class='modal-dialog modal-dialog-centered'
+                      role='document'
+                    >
+                      <div class='modal-content'>
+                        <div class='modal-header'>
+                          <h5 class='modal-title' id='exampleModalLabel'>
+                            <i className='fa fa-plus'></i> Add New Item
+                          </h5>
+                          <button
+                            type='button'
+                            class='close'
+                            data-dismiss='modal'
+                            aria-label='Close'
+                          >
+                            <span aria-hidden='true'>&times;</span>
+                          </button>
+                        </div>
+                        <div class='modal-body'>
+                          <form>
+                            {submitError && (
+                              <div class='alert alert-danger' role='alert'>
+                                {submitError}
+                              </div>
+                            )}
+                            <div class='form-group'>
+                              <label for='name' class='col-form-label'>
+                                Product Name
+                              </label>
+                              <input
+                                type='text'
+                                class='form-control'
+                                id='name'
+                                name='name'
+                                onChange={handleAddItemInputChange}
+                              />
+                            </div>
+                            <div class='form-group'>
+                              <label for='category'>Category</label>
+                              <select
+                                id='category'
+                                class='form-control'
+                                name='categoryId'
+                                onChange={handleAddItemInputChange}
+                              >
+                                <option disabled selected>
+                                  Choose Category
+                                </option>
+                                {categories &&
+                                  categories.map((category) => {
+                                    return (
+                                      <option value={category._id}>
+                                        {category.name}
+                                      </option>
+                                    )
+                                  })}
+                              </select>
+                            </div>
+                            <div class='form-group'>
+                              <label class='col-form-label' for='price'>
+                                Price (USD)
+                              </label>
+                              <input
+                                type='number'
+                                class='form-control'
+                                id='price'
+                                name='price'
+                                onChange={handleAddItemInputChange}
+                              />
+                            </div>
+                            <div class='form-group'>
+                              <label for='message-text' class='col-form-label'>
+                                Description
+                              </label>
+                              <textarea
+                                class='form-control'
+                                name='description'
+                                onChange={handleAddItemInputChange}
+                              ></textarea>
+                            </div>
+                            <div class='form-group'>
+                              <label
+                                for='recipient-name'
+                                class='col-form-label'
+                              >
+                                Quantity Available
+                              </label>
+                              <input
+                                type='number'
+                                name='quantity'
+                                onChange={handleAddItemInputChange}
+                                class='form-control'
+                              />
+                            </div>
+                            <div className='form-group'>
+                              <label class='form-label' for='customFile'>
+                                Upload Product Image
+                              </label>
+                              <input
+                                type='file'
+                                class='form-control'
+                                accept='image/*'
+                                id='customFile'
+                                name='imageUrl'
+                                onChange={handleAddItemUpload}
+                              />
+                            </div>
+                          </form>
+                        </div>
+                        <div class='modal-footer'>
+                          <button
+                            type='button'
+                            class='btn btn-secondary'
+                            data-dismiss='modal'
+                          >
+                            Close
+                          </button>
+                          <button
+                            type='button'
+                            class='btn btn-primary'
+                            onClick={handleAddItemSubmit}
+                            disabled={
+                              !addItemData.name ||
+                              !addItemData.price ||
+                              !addItemData.quantity ||
+                              !addItemData.imageUrl ||
+                              !addItemData.categoryId ||
+                              !addItemData.description
+                            }
+                            data-dismiss='modal'
+                          >
+                            Add Item
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className='row'>{productsDiv}</div>

@@ -143,11 +143,8 @@ const Header = () => {
                   {globalState.user?.shopId === null ? (
                     <li>
                       <Link to='/create-shop'>
-                        <i
-                          className='fa fa-plus-square-o'
-                          aria-hidden='true'
-                        ></i>{" "}
-                        Create Shop
+                        <i className='fa fa-plus-square' aria-hidden='true'></i>{" "}
+                        {/* Create Shop */}
                       </Link>
                     </li>
                   ) : (
