@@ -21,9 +21,12 @@ const ShopHome = () => {
   const [shopProducts, setShopProducts] = useState([])
   const [submitError, setSubmitError] = useState("")
   const [addedItem, setAddedItem] = useState(false)
+  const [editedItem, setEditedItem] = useState(false)
   const [categories, setCategories] = useState([])
   const [closeModal, setCloseModal] = useState(false)
   const [editModalIsOpen, setEditModalIsOpen] = useState(false)
+  const [editItemProduct, setEditItemProduct] = useState("")
+  const [editProductData, setEditProductData] = useState({})
   const { globalDispatch, globalState } = useContext(GlobalContext)
   const {
     shop: { data, loading, error },
@@ -45,14 +48,14 @@ const ShopHome = () => {
       })
 
     shopAction(userId, shopId)(globalDispatch)
-  }, [addedItem])
+  }, [addedItem, editedItem])
 
   const openBtModal = () => setEditModalIsOpen(true)
   const closeBtModal = () => setEditModalIsOpen(false)
 
-  const handleEdit = (productId) => {
+  const handleEdit = (product) => {
     // users/${userId}/products/${productId}
-    console.log("product", productId)
+    console.log("product", product)
     axiosInstance()
       .get(`/users/${userId}/shops/${shopId}/categories`)
       .then((response) => {
@@ -65,11 +68,29 @@ const ShopHome = () => {
       })
     openBtModal()
     console.log(editModalIsOpen)
+    setEditItemProduct(product)
   }
 
-  // const handleEditItemInputChange
+  const pullEditItemData = (data) => {
+    setEditProductData(data)
+  }
 
-  const handleEditItemSubmit = (e) => {}
+  const handleEditItemSubmit = (e) => {
+    e.preventDefault()
+    console.log("editProductData", editProductData)
+    setSubmitError("")
+    axiosInstance()
+      .put(`/users/${userId}/products/${editItemProduct._id}`, editProductData)
+      .then((response) => {
+        console.log("response", response.data)
+        setEditedItem((prevState) => !prevState)
+        closeBtModal()
+      })
+      .catch((error) => {
+        console.log("error", error)
+        setSubmitError("Could not update item. Please try again later.")
+      })
+  }
 
   const handleAddItemInputChange = (e) => {
     setAddItemData({
@@ -228,6 +249,7 @@ const ShopHome = () => {
                         alt='Admin'
                         class='rounded-circle'
                         width='100'
+                        height='100'
                       />
                       <div class='mt-3'>
                         <h4>{data.ownerDetails.username}</h4>
@@ -408,15 +430,31 @@ const ShopHome = () => {
                 </BtModal.Header>
                 <BtModal.Body>
                   <EditForm
+                    key={editItemProduct._id}
                     // handleEditItemInputChange={handleEditItemInputChange}
-                    handleAddItemUpload={handleAddItemUpload}
+                    editItemProduct={editItemProduct}
+                    categories={categories}
+                    pullEditItemData={pullEditItemData}
+                    submitError={submitError}
                   />
                 </BtModal.Body>
                 <BtModal.Footer>
                   <BtButton variant='secondary' onClick={closeBtModal}>
                     Close
                   </BtButton>
-                  <BtButton variant='primary' onClick={handleEditItemSubmit}>
+                  <BtButton
+                    variant='primary'
+                    onClick={handleEditItemSubmit}
+                    disabled={
+                      !editProductData.name ||
+                      !editProductData.price ||
+                      !editProductData.quantity ||
+                      !editProductData.imageUrl ||
+                      !editProductData.categoryId ||
+                      !editProductData.description
+                    }
+                  >
+                    {" "}
                     Save Changes
                   </BtButton>
                 </BtModal.Footer>

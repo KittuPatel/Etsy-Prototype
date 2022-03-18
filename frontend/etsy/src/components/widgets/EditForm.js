@@ -1,15 +1,69 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
+import axios from "axios"
 
-const EditForm = ({ handleAddItemUpload, categories }) => {
-  const handleEditItemInputChange = (e) => {}
+const EditForm = ({
+  categories,
+  editItemProduct,
+  pullEditItemData,
+  submitError,
+}) => {
+  const [editProductDetails, setEditProductDetails] = useState(editItemProduct)
+  // useEffect(() => {
+  //   setEditProductDetails(editItemProduct)
+  //   console.log("editItemProduct", editItemProduct)
+  //   console.log("editItemData", editItemData)
+  //   console.log("editProductDetails", editProductDetails)
+  // }, [editItemProduct])
+
+  const handleEditItemInputChange = (e) => {
+    setEditProductDetails({
+      ...editProductDetails,
+      [e.target.name]: e.target.value,
+    })
+    console.log(editProductDetails)
+    pullEditItemData(editProductDetails)
+  }
+
+  const handleEditItemUpload = (e) => {
+    e.preventDefault()
+    const formData = new FormData()
+    formData.append("myImage", e.target.files[0])
+    console.log(e.target.files[0])
+    console.log(formData)
+    axios({
+      method: "post",
+      url: "https://beea-2600-1700-65aa-d910-6abc-c43c-445c-9e63.ngrok.io/upload",
+      data: formData,
+      headers: {
+        "Content-Type":
+          "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+      },
+    })
+      .then((response) => {
+        console.log("response from upload", response.data)
+        setEditProductDetails({
+          ...editProductDetails,
+          imageUrl: response.data.imageUrl,
+        })
+      })
+      .catch((error) => {
+        console.log("error while uploading", error)
+        setEditProductDetails({
+          ...editProductDetails,
+          imageUrl:
+            "https://cdn.shopify.com/s/files/1/0550/2595/9111/products/placeholder-images-image_large_fdf08b50-ae9b-476d-bce2-aa57319b6b67_600x.png?v=1634637556",
+        })
+      })
+  }
+
   return (
     <div>
       <form>
-        {/* {submitError && (
+        {submitError && (
           <div class='alert alert-danger' role='alert'>
             {submitError}
           </div>
-        )} */}
+        )}
         <div class='form-group'>
           <label for='name' class='col-form-label'>
             Product Name
@@ -19,6 +73,7 @@ const EditForm = ({ handleAddItemUpload, categories }) => {
             class='form-control'
             id='name'
             name='name'
+            value={editProductDetails.name}
             onChange={handleEditItemInputChange}
           />
         </div>
@@ -28,6 +83,7 @@ const EditForm = ({ handleAddItemUpload, categories }) => {
             id='category'
             class='form-control'
             name='categoryId'
+            value={editProductDetails.categoryId}
             onChange={handleEditItemInputChange}
           >
             <option disabled selected>
@@ -48,6 +104,7 @@ const EditForm = ({ handleAddItemUpload, categories }) => {
             class='form-control'
             id='price'
             name='price'
+            value={editProductDetails.price}
             onChange={handleEditItemInputChange}
           />
         </div>
@@ -58,6 +115,7 @@ const EditForm = ({ handleAddItemUpload, categories }) => {
           <textarea
             class='form-control'
             name='description'
+            value={editProductDetails.description}
             onChange={handleEditItemInputChange}
           ></textarea>
         </div>
@@ -68,6 +126,7 @@ const EditForm = ({ handleAddItemUpload, categories }) => {
           <input
             type='number'
             name='quantity'
+            value={editProductDetails.quantity}
             onChange={handleEditItemInputChange}
             class='form-control'
           />
@@ -82,7 +141,8 @@ const EditForm = ({ handleAddItemUpload, categories }) => {
             accept='image/*'
             id='customFile'
             name='imageUrl'
-            onChange={handleAddItemUpload}
+            // value={editProductDetails.imageUrl}
+            onChange={handleEditItemUpload}
           />
         </div>
       </form>

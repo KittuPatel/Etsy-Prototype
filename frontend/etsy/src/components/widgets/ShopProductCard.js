@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 const ShopProductCard = ({ product, index, pageLink, handleEdit }) => {
@@ -18,10 +18,13 @@ const ShopProductCard = ({ product, index, pageLink, handleEdit }) => {
           <ul class='product-links'>
             <li>
               <button
-                className='btn btn-sm btn-outline-dark'
-                onClick={() => handleEdit(product._id)}
+                className='btn btn-sm btn-icon-link'
+                onClick={() => handleEdit(product)}
               >
-                <i class='fa fa-heart-o'></i>
+                <i
+                  class='fa fa-pencil'
+                  style={{ fontSize: "20px", color: "black" }}
+                ></i>
               </button>
             </li>
             <li>
