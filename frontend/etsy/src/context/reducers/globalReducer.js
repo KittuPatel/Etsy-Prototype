@@ -32,7 +32,10 @@ const globalReducer = (state, action) => {
     case SET_USER:
       return {
         ...state,
-        user: action.payload,
+        user: {
+          ...state.user,
+          ...action.payload,
+        },
       }
     case PRODUCTS_LOADING:
       return {

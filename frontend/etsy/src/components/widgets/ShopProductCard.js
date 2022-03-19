@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { productsAction } from "../../context/actions/productsAction"
 
 const ShopProductCard = ({ product, index, pageLink, handleEdit, isOwner }) => {
   return (
@@ -10,10 +11,28 @@ const ShopProductCard = ({ product, index, pageLink, handleEdit, isOwner }) => {
           <Link to={pageLink} class='image'>
             <img
               class='img-1'
-              src={product.imageUrl}
-              style={{ height: "200px" }}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null // prevents looping
+                currentTarget.src =
+                  "https://justbakedcake.com/wp-content/uploads/2020/09/Product_Image_Placeholder.jpg"
+              }}
+              src={
+                product.imageUrl
+                  ? product.imageUrl
+                  : "https://justbakedcake.com/wp-content/uploads/2020/09/Product_Image_Placeholder.jpg"
+              }
+              style={{ height: "150px" }}
             />
-            <img class='img-2' src={product.imageUrl} />
+            <img
+              class='img-2'
+              src={product.imageUrl}
+              style={{ height: "150px" }}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null // prevents looping
+                currentTarget.src =
+                  "https://justbakedcake.com/wp-content/uploads/2020/09/Product_Image_Placeholder.jpg"
+              }}
+            />
           </Link>
           <ul class='product-links'>
             <li>

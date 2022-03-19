@@ -63,7 +63,11 @@ const ItemOverview = () => {
               <div className='col-md-6'>
                 <img
                   className='card-img-top mb-5 mb-md-0'
-                  src={product.imageUrl}
+                  src={
+                    product.imageUrl
+                      ? product.imageUrl
+                      : "https://justbakedcake.com/wp-content/uploads/2020/09/Product_Image_Placeholder.jpg"
+                  }
                   style={{ width: "100%", height: "500px" }}
                   alt='...'
                 />

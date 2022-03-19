@@ -1,8 +1,10 @@
 import axios from "axios"
 
+export const baseURL =
+  "https://f204-2600-1700-65aa-d910-72fe-e6c-a33-e08f.ngrok.io"
+
 export default (history = null) => {
   // const baseURL = "http://localhost:3001"
-  const baseURL = "https://bff2-2600-1700-65aa-d910-72fe-e6c-a33-e08f.ngrok.io"
   let headers = {}
 
   if (localStorage.token) {

@@ -45,10 +45,27 @@ const Favorites = () => {
             <Link to={pageLink} class='image'>
               <img
                 class='img-1'
-                src={favProduct.product.imageUrl}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null // prevents looping
+                  currentTarget.src =
+                    "https://justbakedcake.com/wp-content/uploads/2020/09/Product_Image_Placeholder.jpg"
+                }}
+                src={
+                  favProduct.product.imageUrl
+                    ? favProduct.product.imageUrl
+                    : "https://justbakedcake.com/wp-content/uploads/2020/09/Product_Image_Placeholder.jpg"
+                }
                 style={{ height: "200px" }}
               />
-              <img class='img-2' src={favProduct.product.imageUrl} />
+              <img
+                class='img-2'
+                src={favProduct.product.imageUrl}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null // prevents looping
+                  currentTarget.src =
+                    "https://justbakedcake.com/wp-content/uploads/2020/09/Product_Image_Placeholder.jpg"
+                }}
+              />
             </Link>
             <ul class='product-links'>
               <li>

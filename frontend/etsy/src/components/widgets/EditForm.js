@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
+import { baseURL } from "../../helpers/axiosInstance"
 
 const EditForm = ({
   categories,
@@ -32,7 +33,7 @@ const EditForm = ({
     console.log(formData)
     axios({
       method: "post",
-      url: "https://beea-2600-1700-65aa-d910-6abc-c43c-445c-9e63.ngrok.io/upload",
+      url: `${baseURL}/upload`,
       data: formData,
       headers: {
         "Content-Type":

@@ -9,6 +9,7 @@ import axios from "axios"
 import ShopProductCard from "./widgets/ShopProductCard"
 import { Modal as BtModal, Button as BtButton } from "react-bootstrap"
 import EditForm from "./widgets/EditForm"
+import { baseURL } from "../helpers/axiosInstance"
 
 const ShopHome = () => {
   const history = useHistory()
@@ -121,7 +122,7 @@ const ShopHome = () => {
     console.log(formData)
     axios({
       method: "post",
-      url: "https://beea-2600-1700-65aa-d910-6abc-c43c-445c-9e63.ngrok.io/upload",
+      url: `${baseURL}/upload`,
       data: formData,
       headers: {
         "Content-Type":
