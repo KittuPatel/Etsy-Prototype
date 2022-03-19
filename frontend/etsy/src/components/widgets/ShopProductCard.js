@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
-const ShopProductCard = ({ product, index, pageLink, handleEdit }) => {
+const ShopProductCard = ({ product, index, pageLink, handleEdit, isOwner }) => {
   return (
     // assets/images/product_1.png
     <div class='col-md-3 col-lg-3 col-sm-6' key={index}>
@@ -17,15 +17,17 @@ const ShopProductCard = ({ product, index, pageLink, handleEdit }) => {
           </Link>
           <ul class='product-links'>
             <li>
-              <button
-                className='btn btn-sm btn-icon-link'
-                onClick={() => handleEdit(product)}
-              >
-                <i
-                  class='fa fa-pencil'
-                  style={{ fontSize: "20px", color: "black" }}
-                ></i>
-              </button>
+              {isOwner ? (
+                <button
+                  className='btn btn-sm btn-icon-link'
+                  onClick={() => handleEdit(product)}
+                >
+                  <i
+                    class='fa fa-pencil'
+                    style={{ fontSize: "20px", color: "black" }}
+                  ></i>
+                </button>
+              ) : null}
             </li>
             <li>
               <Link to='/'>

@@ -185,6 +185,7 @@ const ShopHome = () => {
         key={index}
         pageLink={pageLink}
         handleEdit={handleEdit}
+        isOwner={isOwner}
       />
     )
   })
@@ -268,14 +269,16 @@ const ShopHome = () => {
                   <h4>Shop Items</h4>
                 </div>
                 <div className='col-md-2 float-right'>
-                  <button
-                    className='btn btn-dark btn-sm w-100'
-                    data-toggle='modal'
-                    data-target='#addItemModal'
-                    onClick={handleAddNewItemBtnClick}
-                  >
-                    <i className='fa fa-plus'></i> Add New Item
-                  </button>
+                  {isOwner ? (
+                    <button
+                      className='btn btn-dark btn-sm w-100'
+                      data-toggle='modal'
+                      data-target='#addItemModal'
+                      onClick={handleAddNewItemBtnClick}
+                    >
+                      <i className='fa fa-plus'></i> Add New Item
+                    </button>
+                  ) : null}
 
                   <div
                     class='modal fade'

@@ -1,14 +1,27 @@
 import {
+  SET_USER,
+  PRODUCTS_LOADING,
+  PRODUCTS_SUCCESS,
+  PRODUCTS_ERROR,
+  FAVORITES_LOADING,
+  FAVORITES_SUCCESS,
+  FAVORITES_ERROR,
   ADD_FAVORITE_ITEM_LOADING,
-  ADD_FAVORITE_ITEM_ERROR,
   ADD_FAVORITE_ITEM_SUCCESS,
-  LOGOUT_USER,
-  CHECK_SHOP_NAME_LOADING,
-  CHECK_SHOP_NAME_SUCCESS,
-  CHECK_SHOP_NAME_ERROR,
+  ADD_FAVORITE_ITEM_ERROR,
+  CART_LOADING,
+  CART_SUCCESS,
+  CART_ERROR,
+  DELETE_FAVORITES_LOADING,
+  DELETE_FAVORITES_SUCCESS,
+  DELETE_FAVORITES_ERROR,
+  DELETE_CART_LOADING,
+  DELETE_CART_SUCCESS,
+  DELETE_CART_ERROR,
   GET_SHOP_LOADING,
   GET_SHOP_SUCCESS,
   GET_SHOP_ERROR,
+  LOGOUT_USER,
 } from "../actions/actionTypes"
 
 import globalInitialState from "../initialState/globalInitialState"
@@ -16,12 +29,12 @@ import authInitialState from "../initialState/authInitialState"
 
 const globalReducer = (state, action) => {
   switch (action.type) {
-    case "SET_USER":
+    case SET_USER:
       return {
         ...state,
         user: action.payload,
       }
-    case "PRODUCTS_LOADING":
+    case PRODUCTS_LOADING:
       return {
         ...state,
         products: {
@@ -30,7 +43,7 @@ const globalReducer = (state, action) => {
           error: false,
         },
       }
-    case "PRODUCTS_SUCCESS":
+    case PRODUCTS_SUCCESS:
       return {
         ...state,
         products: {
@@ -40,7 +53,7 @@ const globalReducer = (state, action) => {
           data: action.payload,
         },
       }
-    case "PRODUCTS_ERROR":
+    case PRODUCTS_ERROR:
       return {
         ...state,
         products: {
@@ -49,7 +62,7 @@ const globalReducer = (state, action) => {
           error: action.payload,
         },
       }
-    case "FAVORITES_LOADING":
+    case FAVORITES_LOADING:
       return {
         ...state,
         favorites: {
@@ -58,7 +71,7 @@ const globalReducer = (state, action) => {
           error: false,
         },
       }
-    case "FAVORITES_SUCCESS":
+    case FAVORITES_SUCCESS:
       return {
         ...state,
         favorites: {
@@ -68,7 +81,7 @@ const globalReducer = (state, action) => {
           data: action.payload,
         },
       }
-    case "FAVORITES_ERROR":
+    case FAVORITES_ERROR:
       return {
         ...state,
         favorites: {
@@ -106,36 +119,104 @@ const globalReducer = (state, action) => {
         },
       }
 
-    // case "DELETE_FAVORITES_LOADING":
-    //   return {
-    //     ...state,
-    //     favorites: {
-    //       ...state.favorites,
-    //       loading: true,
-    //       error: false,
-    //     },
-    //   }
-    // case "DELETE_FAVORITES_SUCCESS":
-    //   return {
-    //     ...state,
-    //     favorites: {
-    //       ...state.favorites,
-    //       loading: false,
-    //       error: false,
-    //       data: (state.favorites.data || []).filter(
-    //         (item) => item.id !== action.payload
-    //       ),
-    //     },
-    //   }
-    // case "DELETE_FAVORITES_ERROR":
-    //   return {
-    //     ...state,
-    //     favorites: {
-    //       ...state.favorites,
-    //       loading: false,
-    //       error: action.payload,
-    //     },
-    //   }
+    case CART_LOADING:
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loading: true,
+          error: false,
+        },
+      }
+    case CART_SUCCESS:
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loading: false,
+          error: false,
+          data: action.payload,
+        },
+      }
+    case CART_ERROR:
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loading: false,
+          error: action.payload,
+        },
+      }
+
+    case DELETE_FAVORITES_LOADING:
+      return {
+        ...state,
+        favorites: {
+          ...state.favorites,
+          loading: true,
+          error: false,
+        },
+      }
+    case DELETE_FAVORITES_SUCCESS:
+      console.log("DELETE FAV DATA is", state.favorites.data)
+      return {
+        ...state,
+        favorites: {
+          ...state.favorites,
+          loading: false,
+          error: false,
+          data: {
+            favorites: (state.favorites.data
+              ? state.favorites.data.favorites
+              : []
+            ).filter((item) => item._id !== action.payload),
+          },
+        },
+      }
+    case DELETE_FAVORITES_ERROR:
+      return {
+        ...state,
+        favorites: {
+          ...state.favorites,
+          loading: false,
+          error: action.payload,
+        },
+      }
+
+    case DELETE_CART_LOADING:
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loading: true,
+          error: false,
+        },
+      }
+    case DELETE_CART_SUCCESS:
+      console.log("DELETE CART SUCCESS", state.cart.data.cartItems)
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loading: false,
+          error: false,
+          data: {
+            cartItems: (state.cart.data
+              ? state.cart.data.cartItems
+              : []
+            ).filter((item) => item._id !== action.payload),
+          },
+        },
+      }
+    case DELETE_CART_ERROR:
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          loading: false,
+          error: action.payload,
+        },
+      }
 
     case GET_SHOP_LOADING:
       return {

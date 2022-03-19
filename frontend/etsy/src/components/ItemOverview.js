@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react"
-import { useHistory, useParams } from "react-router-dom"
+import { useHistory, useParams, Link } from "react-router-dom"
 import Footer from "./Footer"
 import Header from "./Header"
 import { GlobalContext } from "../context/Provider"
@@ -35,20 +35,16 @@ const ItemOverview = () => {
         setLoading(false)
         console.log(err)
       })
-    // data?.products.map((product) => {
-    //   if (product._id === id) {
-    //     setProduct(product)
-    //     // Display max 20 items in the select box.
     product?.quantity >= 20
       ? setProductQuantity(20)
       : setProductQuantity(product.quantity)
-    //   }
-    // })
   }, [])
 
   let handleQuantityChange = (e) => {
     setProductQuantity(e.target.value)
   }
+
+  const shopUrl = `/users/${userId}/shops/${product.shopId}`
 
   return (
     // <div className="py-5">
@@ -78,7 +74,10 @@ const ItemOverview = () => {
                   <i className='fa fa-star'></i> 4.5{" "}
                 </div>
                 <div className='mb-1 underline'>
-                  <u>{product.shopName}</u>
+                  <Link to={shopUrl}>
+                    {" "}
+                    <u>{product.shopName}</u>{" "}
+                  </Link>
                 </div>
                 <h3 className='display-5 fw-bolder'>{product.name}</h3>
                 <div className='fs-5 mb-2'>

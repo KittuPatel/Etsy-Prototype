@@ -1,7 +1,13 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-const ProductCard = ({ product, index, pageLink }) => {
+const ProductCard = ({
+  product,
+  index,
+  pageLink,
+  handleFavProduct,
+  addToCart,
+}) => {
   return (
     // assets/images/product_1.png
     <div class='col-md-3 col-lg-3 col-sm-6' key={index}>
@@ -16,15 +22,18 @@ const ProductCard = ({ product, index, pageLink }) => {
             <img class='img-2' src={product.imageUrl} />
           </Link>
           <ul class='product-links'>
-            {/* <li>
-             <button onClick={handleFavProduct.bind(this, product._id)}>
-               <i class='fa fa-heart-o'></i>
-             </button>
-           </li> */}
             <li>
-              <Link to='/'>
+              <button onClick={() => handleFavProduct(product._id)}>
+                <i class='fa fa-heart-o'></i>
+              </button>
+            </li>
+            <li>
+              {/* <Link to="/cart"> */}
+              <button onClick={() => addToCart(product._id)}>
                 <i class='fa fa-shopping-cart'></i>
-              </Link>
+                CART
+              </button>
+              {/* </Link> */}
             </li>
           </ul>
           <Link to={pageLink} class='product-view'>
