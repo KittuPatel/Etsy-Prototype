@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Input } from "semantic-ui-react"
 import { GlobalContext } from "../context/Provider"
 import { Link } from "react-router-dom"
 import Header from "./Header"
+import { Dimmer, Loader } from "semantic-ui-react"
 import {
   favoritesAction,
   deleteFavoritesAction,
@@ -11,8 +12,9 @@ const Favorites = () => {
   const { globalDispatch, globalState } = useContext(GlobalContext)
   const {
     user,
-    favorites: { data },
+    favorites: { data, loading, error },
   } = globalState
+  const [query, setQuery] = useState("")
   console.log("user from globalState", user?.userId)
   const userId = user?.userId
   console.log("favorites page", data)
@@ -21,10 +23,16 @@ const Favorites = () => {
     favoritesAction(userId)(globalDispatch)
   }, [userId])
 
-  // const handleDeleteFav = (id) => {
-  //   console.log("id", id)
-  //   deleteFavoritesAction(userId, id)(globalDispatch)
-  // }
+  useEffect(() => {
+    favoritesAction(userId, query)(globalDispatch)
+  }, [query])
+
+  const handleDeleteFav = (id) => {
+    console.log("delete id", id)
+    deleteFavoritesAction(userId, id)(globalDispatch)
+  }
+
+  console.log("Fav data is ", data)
 
   const productsDiv = data?.favorites.map((favProduct, index) => {
     let pageLink = `/product/${favProduct.product._id}`
@@ -44,12 +52,15 @@ const Favorites = () => {
             </Link>
             <ul class='product-links'>
               <li>
-                <Link to='/'>
+                <button
+                  className='btn btn-sm'
+                  onClick={() => handleDeleteFav(favProductId)}
+                >
                   <i class='fa fa-heart color-etsy'></i>
-                </Link>
+                </button>
               </li>
               <li>
-                <Link to='/'>
+                <Link className='btn btn-sm btn-icon-link' to='/'>
                   <i class='fa fa-shopping-cart'></i>
                 </Link>
               </li>
@@ -90,8 +101,9 @@ const Favorites = () => {
   })
 
   return (
-    <>
+    <div>
       <Header />
+
       <div class='container profile-page' style={{ marginTop: "180px" }}>
         <div class='row'>
           <div class='col-xl-6 col-lg-7 col-md-12'>
@@ -137,6 +149,7 @@ const Favorites = () => {
                 icon={{ name: "search", link: true }}
                 placeholder='Search...'
                 style={{ width: "370px" }}
+                onChange={(e) => setQuery(e.target.value)}
               />
               {/* <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" /> */}
               {/* <span class="input-group-text border-0" id="search-addon">
@@ -145,9 +158,22 @@ const Favorites = () => {
             </div>
           </div>
         </div>
-        <div className='row'>{productsDiv}</div>
+        {loading ? (
+          <div className='container' style={{ marginTop: "250px" }}>
+            <Dimmer active inverted>
+              <Loader inverted>Loading</Loader>
+            </Dimmer>
+          </div>
+        ) : (
+          data?.favorites && (
+            <div className='row'>
+              {productsDiv} <br /> <br />
+            </div>
+          )
+        )}
+        <br /> <br /> <br />
       </div>
-    </>
+    </div>
   )
 }
 

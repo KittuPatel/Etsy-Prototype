@@ -23,15 +23,24 @@ const ProductCard = ({
           </Link>
           <ul class='product-links'>
             <li>
-              <button onClick={() => handleFavProduct(product._id)}>
+              <button
+                className='btn btn-sm btn-icon-link'
+                style={{ fontSize: "16px", color: "black" }}
+                onClick={() => handleFavProduct(product._id)}
+              >
                 <i class='fa fa-heart-o'></i>
               </button>
             </li>
             <li>
               {/* <Link to="/cart"> */}
-              <button onClick={() => addToCart(product._id)}>
-                <i class='fa fa-shopping-cart'></i>
-                CART
+              <button
+                className='btn btn-sm btn-icon-link'
+                onClick={() => addToCart(product._id)}
+              >
+                <i
+                  class='fa fa-shopping-cart'
+                  style={{ fontSize: "16px", color: "black" }}
+                ></i>
               </button>
               {/* </Link> */}
             </li>

@@ -12,6 +12,7 @@ const Home = () => {
     user,
     products: { data },
   } = globalState
+  const [fav, setFav] = useState(false)
   console.log("user from globalState", user?.userId)
   const userId = user?.userId
 
@@ -23,11 +24,13 @@ const Home = () => {
   console.log("Global State from Home", globalState)
 
   const handleFavProduct = (productId) => {
+    setFav(true)
     if (userId) {
       console.log("productId from handleFavProduct", productId)
       postFavoritesAction(productId, userId)(globalDispatch)
       console.log("global state after postFavoritesAction", globalState)
     }
+    // setFav(false)
   }
 
   const addToCart = (productId) => {
@@ -151,7 +154,7 @@ const Home = () => {
             </div>
           </div>
 
-          <div className='row'>{productsDiv}</div>
+          <div className='row'>{productsDiv} </div>
         </div>
       </div>
 

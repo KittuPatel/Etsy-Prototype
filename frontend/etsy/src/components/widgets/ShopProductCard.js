@@ -24,7 +24,7 @@ const ShopProductCard = ({ product, index, pageLink, handleEdit, isOwner }) => {
                 >
                   <i
                     class='fa fa-pencil'
-                    style={{ fontSize: "20px", color: "black" }}
+                    style={{ fontSize: "18px", color: "black" }}
                   ></i>
                 </button>
               ) : null}
