@@ -18,7 +18,7 @@ const Header = () => {
   } = useContext(GlobalContext)
   // const user = data.data?.data
   const userId = globalState?.user?.userId
-
+  const shopId = globalState?.shop?.data?._id
   const [query, setQuery] = useState("")
 
   const history = useHistory()
@@ -37,7 +37,7 @@ const Header = () => {
     logout(history)(authDispatch)
   }
 
-  const shopLink = `/users/${globalState.user.userId}/shops/${globalState.user.shopId}`
+  const shopLink = `/users/${globalState.user.userId}/shops/${shopId}`
 
   return (
     <header className='header'>
@@ -69,13 +69,21 @@ const Header = () => {
                     <>
                       <li>
                         <Link to='/register'>
-                          <i className='fa fa-user-plus' aria-hidden='true'></i>{" "}
+                          <i
+                            className='fa fa-user-plus'
+                            style={{ fontSize: "18px" }}
+                            aria-hidden='true'
+                          ></i>{" "}
                           Register
                         </Link>{" "}
                       </li>
                       <li>
                         <Link to='/login'>
-                          <i className='fa fa-sign-in' aria-hidden='true'></i>{" "}
+                          <i
+                            className='fa fa-sign-in'
+                            style={{ fontSize: "20px" }}
+                            aria-hidden='true'
+                          ></i>{" "}
                           SignIn{" "}
                         </Link>{" "}
                       </li>
@@ -94,10 +102,14 @@ const Header = () => {
                       <i className='fa fa-user' aria-hidden='true'></i>
                     </Link>
                   </li> */}
-                  {globalState.user?.shopId === null ? (
+                  {globalState.shop?.data == null ? (
                     <li>
                       <Link to='/create-shop'>
-                        <i className='fa fa-plus-square' aria-hidden='true'></i>{" "}
+                        <i
+                          className='fa fa-plus-square'
+                          style={{ fontSize: "21px" }}
+                          aria-hidden='true'
+                        ></i>{" "}
                         {/* Create Shop */}
                       </Link>
                     </li>

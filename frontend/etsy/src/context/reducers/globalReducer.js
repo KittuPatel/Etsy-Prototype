@@ -161,7 +161,6 @@ const globalReducer = (state, action) => {
         },
       }
     case DELETE_FAVORITES_SUCCESS:
-      console.log("DELETE FAV DATA is", state.favorites.data)
       return {
         ...state,
         favorites: {

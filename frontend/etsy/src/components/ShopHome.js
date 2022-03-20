@@ -38,12 +38,13 @@ const ShopHome = () => {
     // getShopProductsAction(userId, shopData)(globalDispatch)
     //  {{host}}/users/{{userId}}/shops/{{shopId}}/products
     const userDetails = JSON.parse(localStorage.getItem("userDetails"))
+    shopAction(userId, shopId)(globalDispatch)
     axiosInstance()
       .post(`/users/${userId}/products`, shopData)
       .then((response) => {
         console.log("response from shop products", response.data)
         setShopProducts(response.data.products)
-        if (userDetails?.shopId === shopId) {
+        if (data?._id === shopId) {
           setIsOwner(true)
         } else {
           setIsOwner(false)

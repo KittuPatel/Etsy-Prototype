@@ -48,14 +48,16 @@ const ShopProductCard = ({ product, index, pageLink, handleEdit, isOwner }) => {
                 </button>
               ) : null}
             </li>
-            <li>
-              <Link to='/' className='btn btn-sm btn-icon-link'>
-                <i
-                  class='fa fa-shopping-cart'
-                  style={{ fontSize: "18px", color: "black" }}
-                ></i>
-              </Link>
-            </li>
+            {!isOwner ? (
+              <li>
+                <Link to='/' className='btn btn-sm btn-icon-link'>
+                  <i
+                    class='fa fa-shopping-cart'
+                    style={{ fontSize: "18px", color: "black" }}
+                  ></i>
+                </Link>
+              </li>
+            ) : null}
           </ul>
           <Link to={pageLink} class='product-view'>
             <i class='fa fa-search'></i>

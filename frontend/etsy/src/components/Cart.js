@@ -5,6 +5,7 @@ import { Link, useHistory } from "react-router-dom"
 import axiosInstance from "../helpers/axiosInstance"
 import Header from "./Header"
 import { UPDATE_CART_ITEM_SUCCESS } from "../context/actions/actionTypes"
+import { Dimmer, Loader } from "semantic-ui-react"
 
 const Cart = () => {
   const history = useHistory()
@@ -122,39 +123,52 @@ const Cart = () => {
     <div>
       <Header />
       {cart?.loading ? (
-        <p>Loading..</p>
+        <div className='container' style={{ marginTop: "250px" }}>
+          <Dimmer active inverted>
+            <Loader inverted>Loading</Loader>
+          </Dimmer>
+        </div>
       ) : (
-        cartItems && (
+        cart?.data && (
           <div className='container' style={{ marginTop: "130px" }}>
             <div className='row w-100'>
               <div className='col-lg-12 col-md-12 col-12'>
+                {msg && (
+                  <div class='alert alert-success' role='alert'>
+                    Order Placed Successfully !
+                  </div>
+                )}
                 <h2 className='display-5 mb-2 text-center'>Shopping Cart</h2>
                 <h4 className='mb-5 text-center'>
                   <i className='text-info font-weight-bold'> {cartCount}</i>{" "}
                   items in your cart
                 </h4>
                 <div class='col-12'>
-                  <table
-                    id='shoppingCart'
-                    className='table table-responsive w-100 d-block d-md-table'
-                  >
-                    <thead>
-                      <tr>
-                        <th> Image </th>
-                        <th> Product</th>
-                        <th> Price</th>
-                        <th> Quantity</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>{cartsDiv}</tbody>
-                  </table>
+                  {cartCount === 0 ? null : (
+                    <table
+                      id='shoppingCart'
+                      className='table table-responsive w-100 d-block d-md-table'
+                    >
+                      <thead>
+                        <tr>
+                          <th>Image</th>
+                          <th>Product</th>
+                          <th>Price</th>
+                          <th>Quantity</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>{cartsDiv}</tbody>
+                    </table>
+                  )}
                 </div>
-                <div className='float-right text-right'>
-                  <h3>
-                    Total: <b>${cartTotal}</b>
-                  </h3>
-                </div>
+                {cartCount === 0 ? null : (
+                  <div className='float-right text-right'>
+                    <h3>
+                      Total: <b>${cartTotal}</b>
+                    </h3>
+                  </div>
+                )}
               </div>
             </div>
             <div className='row mt-4 d-flex align-items-center'>
@@ -172,11 +186,6 @@ const Cart = () => {
                 </Link>
               </div>
             </div>
-            {msg && (
-              <div class='alert alert-success' role='alert'>
-                Order Placed Successfully !
-              </div>
-            )}
           </div>
         )
       )}
