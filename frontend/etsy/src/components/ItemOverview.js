@@ -103,12 +103,16 @@ const ItemOverview = () => {
                   </select>
                 </div>
                 <br />
-                <button className='btn btn-dark-outine w-100' type='button'>
+                {/* <button className='btn btn-dark-outine w-100' type='button'>
                   <i className='bi-cart-fill me-1'></i>
                   Add to Favorites
-                </button>
+                </button> */}
                 <br /> <br />
-                <button className='btn btn-dark w-100' type='button'>
+                <button
+                  className='btn btn-dark w-100'
+                  type='button'
+                  disabled={product.quantity <= 0}
+                >
                   <i className='bi-cart-fill me-1'></i>
                   Add to cart
                 </button>

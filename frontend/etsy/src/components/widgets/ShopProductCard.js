@@ -49,8 +49,11 @@ const ShopProductCard = ({ product, index, pageLink, handleEdit, isOwner }) => {
               ) : null}
             </li>
             <li>
-              <Link to='/'>
-                <i class='fa fa-shopping-cart'></i>
+              <Link to='/' className='btn btn-sm btn-icon-link'>
+                <i
+                  class='fa fa-shopping-cart'
+                  style={{ fontSize: "18px", color: "black" }}
+                ></i>
               </Link>
             </li>
           </ul>

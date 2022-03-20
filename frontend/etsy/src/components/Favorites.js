@@ -121,7 +121,7 @@ const Favorites = () => {
     <div>
       <Header />
 
-      <div class='container profile-page' style={{ marginTop: "180px" }}>
+      <div class='container profile-page' style={{ marginTop: "130px" }}>
         <div class='row'>
           <div class='col-xl-6 col-lg-7 col-md-12'>
             <div class='card profile-header'>
@@ -131,23 +131,32 @@ const Favorites = () => {
                     <div class='profile-image float-md-right'>
                       {" "}
                       <img
-                        src='https://global-uploads.webflow.com/5e4627609401e01182af1cce/5eb13bfdb4659efea4f8dace_profile-dummy.png'
+                        onError={({ currentTarget }) => {
+                          currentTarget.onerror = null // prevents looping
+                          currentTarget.src =
+                            "https://global-uploads.webflow.com/5e4627609401e01182af1cce/5eb13bfdb4659efea4f8dace_profile-dummy.png"
+                        }}
+                        src={
+                          user?.imageUrl
+                            ? user.imageUrl
+                            : "https://global-uploads.webflow.com/5e4627609401e01182af1cce/5eb13bfdb4659efea4f8dace_profile-dummy.png"
+                        }
                         alt=''
                       />{" "}
                     </div>
                   </div>
                   <div class='col-lg-8 col-md-8 col-12'>
-                    <br />
-                    <h4 class='m-t-0 m-b-0'>{user.username}</h4>
+                    {/* <br /> */}
+                    <h3 class='mt-2 m-b-0'>{user.username}</h3>
                     <span class='job_post'>0 Followers | </span>
                     <span class='job_post'>0 Following</span>
                     <br /> <br />
                     <div>
                       <Link
                         to='/editprofile'
-                        class='btn btn-sm btn-primary btn-round'
+                        class='btn btn-outline-dark btn-round'
                       >
-                        Edit Profile <i className='fa fa-pencil'></i>{" "}
+                        <i className='fa fa-pencil'></i> Edit Profile
                       </Link>
                     </div>
                   </div>
@@ -157,15 +166,15 @@ const Favorites = () => {
           </div>
         </div>
         <div class='row'>
-          <div class='col-xl-6 col-lg-6 col-md-6'>
+          <div class='col-xl-8 col-lg-8 col-md-8'>
             <h4 class='m-t-0 m-b-0'>Favourites</h4>
           </div>
-          <div class='col-xl-6 col-lg-6 col-md-6'>
-            <div class='input-group rounded'>
+          <div class='col-xl-4 col-lg-4 col-md-4 float-right'>
+            <div class='input-group rounded float-right'>
               <Input
                 icon={{ name: "search", link: true }}
                 placeholder='Search...'
-                style={{ width: "370px" }}
+                style={{ width: "600px" }}
                 onChange={(e) => setQuery(e.target.value)}
               />
               {/* <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" /> */}

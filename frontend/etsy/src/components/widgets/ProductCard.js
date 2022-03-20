@@ -66,14 +66,17 @@ const ProductCard = ({
           </Link>
         </div>
         <div class='product-content'>
-          <ul class='rating'>
+          {product.quantity > 0 ? null : (
+            <span class='badge badge-secondary'>Out of Stock</span>
+          )}
+          {/* <ul class='rating'>
             <li class='fa fa-star'></li>
             <li class='fa fa-star'></li>
             <li class='fa fa-star'></li>
             <li class='fa fa-star'></li>
             <li class='fa fa-star disable'></li>
             <li class='disable'>(1 reviews)</li>
-          </ul>
+          </ul> */}
           <h3 class='title'>
             <Link to={pageLink}>{product.name}</Link>
           </h3>

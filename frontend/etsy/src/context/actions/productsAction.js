@@ -7,12 +7,15 @@ import {
 // so actions are responsible for making api calls and tells the reducer how to update the state.
 
 export const productsAction =
-  (userId, query = "") =>
+  (userId, query = "", shopId = "") =>
   (dispatch) => {
     dispatch({ type: PRODUCTS_LOADING })
 
     axiosInstance()
-      .post(`/users/${userId}/products`, { search: query })
+      .post(`/users/${userId}/products`, {
+        search: query,
+        excludeShopIds: [shopId],
+      })
       .then((response) => {
         console.log("response from productsAction", response.data)
         dispatch({ type: PRODUCTS_SUCCESS, payload: response.data })

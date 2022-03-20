@@ -34,6 +34,7 @@ const ProfilePage = () => {
             email: response.data.email,
             phoneNo: response.data.phoneNo,
           })
+
           setLoading(false)
         } else {
           console.log("Error Getting Response from get User API")
@@ -78,6 +79,10 @@ const ProfilePage = () => {
         } else {
           console.log("error posting data to API")
         }
+        globalDispatch({
+          type: "SET_USER",
+          payload: editUser,
+        })
       })
       .catch((error) => {
         console.log("error posting data to API")

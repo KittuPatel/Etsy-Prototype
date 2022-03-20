@@ -180,8 +180,6 @@ const ShopHome = () => {
     }
   }
 
-  const handleShopEditBtnClick = () => {}
-
   const handleEditShopSubmit = (e) => {
     e.preventDefault()
     console.log("editShop", editShopImage)
@@ -283,7 +281,6 @@ const ShopHome = () => {
                               class='btn btn-outline-dark btn-round'
                               data-toggle='modal'
                               data-target='#editShopModal'
-                              onClick={handleShopEditBtnClick}
                             >
                               <i className='fa fa-pencil'></i> Edit Shop
                             </button>
