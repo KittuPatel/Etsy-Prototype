@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom"
 import { BiStoreAlt } from "react-icons/bi"
 import { BsSuitHeartFill } from "react-icons/bs"
 import { CgShoppingCart } from "react-icons/cg"
+
 const Header = () => {
   const {
     authState: { auth: data },
@@ -47,6 +48,11 @@ const Header = () => {
               <div className='logo_container'>
                 <Link to='/'>
                   <span>Etsy</span>
+                  {/* <img
+                    src='../assets/images/Etsy_logo.png'
+                    alt='Etsy Logo'
+                    style={{ height: "20px" }}
+                  /> */}
                 </Link>
               </div>
               <nav className='navbar'>

@@ -1,11 +1,18 @@
 import { useContext, useEffect, useState, useCallback } from "react"
 import { GlobalContext } from "../context/Provider"
 import { cartAction, deleteCartAction } from "../context/actions/cartAction"
+import { Link, useHistory } from "react-router-dom"
+import axiosInstance from "../helpers/axiosInstance"
+import Header from "./Header"
+import { UPDATE_CART_ITEM_SUCCESS } from "../context/actions/actionTypes"
 
 const Cart = () => {
+  const history = useHistory()
   const { globalDispatch, globalState } = useContext(GlobalContext)
+  const { authState, authDispatch } = useContext(GlobalContext)
   const { user, cart } = globalState
   const userId = user?.userId
+  const [msg, setMsg] = useState(false)
 
   useEffect(() => {
     cartAction(userId)(globalDispatch)
@@ -40,20 +47,46 @@ const Cart = () => {
     // cartAction(userId)(globalDispatch);
   }, [])
 
-  console.log("CART COMPONENT has", cartItems)
+  const checkOutCartItems = async () => {
+    console.log(cartItems)
+    axiosInstance()
+      .post(`/users/${userId}/cart/checkout`)
+      .then((response) => {
+        console.log("response.data", response.data)
+        setMsg(true)
+        globalDispatch({ type: UPDATE_CART_ITEM_SUCCESS, payload: [] })
+        history.push("/purchases")
+        //setProduct(response.data)
+        //setLoading(false)
+      })
+      .catch((err) => {
+        //setLoading(false)
+        console.log(err)
+      })
+  }
 
   let cartsDiv = cartItems.map((cartItem) => {
     return (
       <tr>
+        <td data-th='Image'>
+          <img
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null // prevents looping
+              currentTarget.src =
+                "https://justbakedcake.com/wp-content/uploads/2020/09/Product_Image_Placeholder.jpg"
+            }}
+            src={
+              cartItem?.product?.imageUrl
+                ? cartItem?.product.imageUrl
+                : "https://justbakedcake.com/wp-content/uploads/2020/09/Product_Image_Placeholder.jpg"
+            }
+            alt=''
+            className='img-fluid d-none d-md-block rounded mb-2 shadow '
+            style={{ width: "80px", height: "80px" }}
+          />
+        </td>
         <td data-th='Product'>
           <div className='row'>
-            <div className='col-md-3 text-left'>
-              <img
-                src={cartItem?.product?.imageUrl}
-                alt=''
-                className='img-fluid d-none d-md-block rounded mb-2 shadow '
-              />
-            </div>
             <div className='col-md-9 text-left mt-sm-2'>
               <h4>{cartItem?.product?.name}</h4>
               <p className='font-weight-light'>{cartItem?.product?.shopName}</p>
@@ -86,49 +119,67 @@ const Cart = () => {
   })
 
   return (
-    <div className='container px-2 px-lg-2 my-5'>
-      <div className='row w-100'>
-        <div className='col-lg-12 col-md-12 col-12'>
-          <h3 className='display-5 mb-2 text-center'>Shopping Cart</h3>
-          <p className='mb-5 text-center'>
-            <i className='text-info font-weight-bold'> {cartCount}</i> items in
-            your cart
-          </p>
-          <table
-            id='shoppingCart'
-            className='table table-condensed table-responsive'
-          >
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>{cartsDiv}</tbody>
-          </table>
-          <div className='float-right text-right'>
-            <h4>Subtotal:</h4>
-            <h4>${cartTotal}</h4>
+    <div>
+      <Header />
+      {cart?.loading ? (
+        <p>Loading..</p>
+      ) : (
+        cartItems && (
+          <div className='container' style={{ marginTop: "130px" }}>
+            <div className='row w-100'>
+              <div className='col-lg-12 col-md-12 col-12'>
+                <h2 className='display-5 mb-2 text-center'>Shopping Cart</h2>
+                <h4 className='mb-5 text-center'>
+                  <i className='text-info font-weight-bold'> {cartCount}</i>{" "}
+                  items in your cart
+                </h4>
+                <div class='col-12'>
+                  <table
+                    id='shoppingCart'
+                    className='table table-responsive w-100 d-block d-md-table'
+                  >
+                    <thead>
+                      <tr>
+                        <th> Image </th>
+                        <th> Product</th>
+                        <th> Price</th>
+                        <th> Quantity</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>{cartsDiv}</tbody>
+                  </table>
+                </div>
+                <div className='float-right text-right'>
+                  <h3>
+                    Total: <b>${cartTotal}</b>
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div className='row mt-4 d-flex align-items-center'>
+              <div className='col-sm-6 order-md-2 text-right'>
+                <button
+                  onClick={checkOutCartItems}
+                  className='btn btn-dark mb-4 btn-lg pl-5 pr-5'
+                >
+                  Checkout
+                </button>
+              </div>
+              <div className='col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left'>
+                <Link to='/'>
+                  <i className='fa fa-arrow-left mr-2'></i> Continue Shopping
+                </Link>
+              </div>
+            </div>
+            {msg && (
+              <div class='alert alert-success' role='alert'>
+                Order Placed Successfully !
+              </div>
+            )}
           </div>
-        </div>
-      </div>
-      <div className='row mt-4 d-flex align-items-center'>
-        <div className='col-sm-6 order-md-2 text-right'>
-          <a
-            href='catalog.html'
-            className='btn btn-primary mb-4 btn-lg pl-5 pr-5'
-          >
-            Checkout
-          </a>
-        </div>
-        <div className='col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left'>
-          <a href='/'>
-            <i className='fa fa-arrow-left mr-2'></i> Continue Shopping
-          </a>
-        </div>
-      </div>
+        )
+      )}
     </div>
   )
 }

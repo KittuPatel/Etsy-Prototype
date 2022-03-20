@@ -29,15 +29,15 @@ const ItemOverview = () => {
       .then((response) => {
         console.log("response.data", response.data)
         setProduct(response.data)
+        product.quantity >= 20
+          ? setProductQuantity(20)
+          : setProductQuantity(product.quantity)
         setLoading(false)
       })
       .catch((err) => {
         setLoading(false)
         console.log(err)
       })
-    product?.quantity >= 20
-      ? setProductQuantity(20)
-      : setProductQuantity(product.quantity)
   }, [])
 
   let handleQuantityChange = (e) => {
@@ -84,6 +84,11 @@ const ItemOverview = () => {
                   </Link>
                 </div>
                 <h3 className='display-5 fw-bolder'>{product.name}</h3>
+                {product.quantity > 0 ? null : (
+                  <h3>
+                    <span class='badge badge-secondary'>Out of Stock</span>
+                  </h3>
+                )}
                 <div className='fs-5 mb-2'>
                   {/* <span className="text-decoration-line-through">$45.00</span> */}
                   <h4>${product.price}</h4>
@@ -108,14 +113,14 @@ const ItemOverview = () => {
                   Add to Favorites
                 </button> */}
                 <br /> <br />
-                <button
+                <Link
                   className='btn btn-dark w-100'
-                  type='button'
+                  to='/cart'
                   disabled={product.quantity <= 0}
                 >
                   <i className='bi-cart-fill me-1'></i>
                   Add to cart
-                </button>
+                </Link>
                 <div></div>
               </div>
             </div>

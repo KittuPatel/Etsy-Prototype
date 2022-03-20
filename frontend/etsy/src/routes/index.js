@@ -9,6 +9,7 @@ import Favorites from "../components/Favorites"
 import Main from "../components/Main"
 import Cart from "../components/Cart"
 import ItemOverview from "../components/ItemOverview"
+import PurchasesPage from "../components/PurchasesPage"
 
 const routes = [
   {
@@ -64,6 +65,13 @@ const routes = [
     path: "/cart",
     component: Cart,
     title: "Cart | Etsy",
+    needsAuth: true,
+    exact: true,
+  },
+  {
+    path: "/purchases",
+    component: PurchasesPage,
+    title: "Purchases | Etsy",
     needsAuth: true,
     exact: true,
   },

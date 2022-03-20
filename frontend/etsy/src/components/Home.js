@@ -58,111 +58,111 @@ const Home = () => {
 
   return (
     <>
-      {loading ? (
+      {/* {loading ? (
         <div style={{ marginTop: "250px" }}>
           <Dimmer active inverted>
             <Loader inverted>Loading</Loader>
           </Dimmer>
         </div>
       ) : (
-        data && (
-          <div>
-            <div className='new_arrivals'>
-              <div className='container'>
-                <div className='row' style={{ marginTop: "100px" }}>
-                  {productsDiv}{" "}
-                </div>
-              </div>
+        data && ( */}
+      <div>
+        <div className='new_arrivals'>
+          <div className='container'>
+            <div className='row' style={{ marginTop: "100px" }}>
+              {productsDiv}{" "}
             </div>
-            <div className='benefit'>
-              <div className='container'>
-                <div className='row benefit_row'>
-                  <div className='col-lg-3 benefit_col'>
-                    <div className='benefit_item d-flex flex-row align-items-center'>
-                      <div className='benefit_icon'>
-                        <i className='fa fa-truck' aria-hidden='true'></i>
-                      </div>
-                      <div className='benefit_content'>
-                        <h6>free shipping</h6>
-                        <p>Suffered Alteration in Some Form</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='col-lg-3 benefit_col'>
-                    <div className='benefit_item d-flex flex-row align-items-center'>
-                      <div className='benefit_icon'>
-                        <i className='fa fa-money' aria-hidden='true'></i>
-                      </div>
-                      <div className='benefit_content'>
-                        <h6>cach on delivery</h6>
-                        <p>The Internet Tend To Repeat</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='col-lg-3 benefit_col'>
-                    <div className='benefit_item d-flex flex-row align-items-center'>
-                      <div className='benefit_icon'>
-                        <i className='fa fa-undo' aria-hidden='true'></i>
-                      </div>
-                      <div className='benefit_content'>
-                        <h6>45 days return</h6>
-                        <p>Making it Look Like Readable</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='col-lg-3 benefit_col'>
-                    <div className='benefit_item d-flex flex-row align-items-center'>
-                      <div className='benefit_icon'>
-                        <i className='fa fa-clock-o' aria-hidden='true'></i>
-                      </div>
-                      <div className='benefit_content'>
-                        <h6>opening all week</h6>
-                        <p>8AM - 09PM</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className='newsletter'>
-              <div className='container'>
-                <div className='row'>
-                  <div className='col-lg-6'>
-                    <div className='newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center'>
-                      <h4>Newsletter</h4>
-                      <p>
-                        Subscribe to our newsletter and get 20% off your first
-                        purchase
-                      </p>
-                    </div>
-                  </div>
-                  <div className='col-lg-6'>
-                    <form action='post'>
-                      <div className='newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center'>
-                        <input
-                          id='newsletter_email'
-                          type='email'
-                          placeholder='Your email'
-                          required='required'
-                          data-error='Valid email is required.'
-                        />
-                        <button
-                          id='newsletter_submit'
-                          type='submit'
-                          className='newsletter_submit_btn trans_300'
-                          value='Submit'
-                        >
-                          subscribe
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>{" "}
           </div>
-        )
-      )}
+        </div>
+        <div className='benefit'>
+          <div className='container'>
+            <div className='row benefit_row'>
+              <div className='col-lg-3 benefit_col'>
+                <div className='benefit_item d-flex flex-row align-items-center'>
+                  <div className='benefit_icon'>
+                    <i className='fa fa-truck' aria-hidden='true'></i>
+                  </div>
+                  <div className='benefit_content'>
+                    <h6>free shipping</h6>
+                    <p>Suffered Alteration in Some Form</p>
+                  </div>
+                </div>
+              </div>
+              <div className='col-lg-3 benefit_col'>
+                <div className='benefit_item d-flex flex-row align-items-center'>
+                  <div className='benefit_icon'>
+                    <i className='fa fa-money' aria-hidden='true'></i>
+                  </div>
+                  <div className='benefit_content'>
+                    <h6>cach on delivery</h6>
+                    <p>The Internet Tend To Repeat</p>
+                  </div>
+                </div>
+              </div>
+              <div className='col-lg-3 benefit_col'>
+                <div className='benefit_item d-flex flex-row align-items-center'>
+                  <div className='benefit_icon'>
+                    <i className='fa fa-undo' aria-hidden='true'></i>
+                  </div>
+                  <div className='benefit_content'>
+                    <h6>45 days return</h6>
+                    <p>Making it Look Like Readable</p>
+                  </div>
+                </div>
+              </div>
+              <div className='col-lg-3 benefit_col'>
+                <div className='benefit_item d-flex flex-row align-items-center'>
+                  <div className='benefit_icon'>
+                    <i className='fa fa-clock-o' aria-hidden='true'></i>
+                  </div>
+                  <div className='benefit_content'>
+                    <h6>opening all week</h6>
+                    <p>8AM - 09PM</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='newsletter'>
+          <div className='container'>
+            <div className='row'>
+              <div className='col-lg-6'>
+                <div className='newsletter_text d-flex flex-column justify-content-center align-items-lg-start align-items-md-center text-center'>
+                  <h4>Newsletter</h4>
+                  <p>
+                    Subscribe to our newsletter and get 20% off your first
+                    purchase
+                  </p>
+                </div>
+              </div>
+              <div className='col-lg-6'>
+                <form action='post'>
+                  <div className='newsletter_form d-flex flex-md-row flex-column flex-xs-column align-items-center justify-content-lg-end justify-content-center'>
+                    <input
+                      id='newsletter_email'
+                      type='email'
+                      placeholder='Your email'
+                      required='required'
+                      data-error='Valid email is required.'
+                    />
+                    <button
+                      id='newsletter_submit'
+                      type='submit'
+                      className='newsletter_submit_btn trans_300'
+                      value='Submit'
+                    >
+                      subscribe
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>{" "}
+      </div>
+      {/* )
+      )} */}
     </>
   )
 }
