@@ -56,7 +56,7 @@ const Home = () => {
 
   return (
     <div>
-      <div
+      {/* <div
         className='main_slider'
         style={{ backgroundImage: "url(assets/images/slider_1.jpg)" }}
       >
@@ -73,9 +73,9 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <div className='banner'>
+      {/* <div className='banner'>
         <div className='container'>
           <div className='row'>
             <div className='col-md-4'>
@@ -110,18 +110,18 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className='new_arrivals'>
         <div className='container'>
-          <div className='row'>
+          {/* <div className='row'>
             <div className='col text-center'>
               <div className='section_title new_arrivals_title'>
                 <h2>New Arrivals</h2>
               </div>
             </div>
-          </div>
-          <div className='row align-items-center'>
+          </div> */}
+          {/* <div className='row align-items-center'>
             <div className='col text-center'>
               <div className='new_arrivals_sorting'>
                 <ul className='arrivals_grid_sorting clearfix button-group filters-button-group'>
@@ -152,9 +152,11 @@ const Home = () => {
                 </ul>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <div className='row'>{productsDiv} </div>
+          <div className='row' style={{ marginTop: "100px" }}>
+            {productsDiv}{" "}
+          </div>
         </div>
       </div>
 

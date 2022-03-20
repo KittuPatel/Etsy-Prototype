@@ -16,13 +16,17 @@ const EditForm = ({
   //   console.log("editProductDetails", editProductDetails)
   // }, [editItemProduct])
 
+  useEffect(() => {
+    pullEditItemData(editProductDetails)
+  }, [editProductDetails])
+
   const handleEditItemInputChange = (e) => {
     setEditProductDetails({
       ...editProductDetails,
       [e.target.name]: e.target.value,
     })
-    console.log(editProductDetails)
-    pullEditItemData(editProductDetails)
+    // console.log(editProductDetails)
+    // pullEditItemData(editProductDetails)
   }
 
   const handleEditItemUpload = (e) => {

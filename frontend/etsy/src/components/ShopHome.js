@@ -23,11 +23,13 @@ const ShopHome = () => {
   const [submitError, setSubmitError] = useState("")
   const [addedItem, setAddedItem] = useState(false)
   const [editedItem, setEditedItem] = useState(false)
+  const [editedShopFlag, setEditedShopFlag] = useState(false)
   const [categories, setCategories] = useState([])
   const [closeModal, setCloseModal] = useState(false)
   const [editModalIsOpen, setEditModalIsOpen] = useState(false)
   const [editItemProduct, setEditItemProduct] = useState("")
   const [editProductData, setEditProductData] = useState({})
+  const [editShopImage, setEditShopImage] = useState({})
   const { globalDispatch, globalState } = useContext(GlobalContext)
   const {
     shop: { data, loading, error },
@@ -49,7 +51,7 @@ const ShopHome = () => {
       })
 
     shopAction(userId, shopId)(globalDispatch)
-  }, [addedItem, editedItem])
+  }, [addedItem, editedItem, editedShopFlag])
 
   const openBtModal = () => setEditModalIsOpen(true)
   const closeBtModal = () => setEditModalIsOpen(false)
@@ -93,7 +95,7 @@ const ShopHome = () => {
       })
   }
 
-  const handleAddItemInputChange = (e) => {
+  const handleAddItemInputChange = async (e) => {
     setAddItemData({
       ...addItemData,
       [e.target.name]: e.target.value,
@@ -178,6 +180,55 @@ const ShopHome = () => {
     }
   }
 
+  const handleShopEditBtnClick = () => {}
+
+  const handleEditShopSubmit = (e) => {
+    e.preventDefault()
+    console.log("editShop", editShopImage)
+    setSubmitError("")
+    axiosInstance()
+      .put(`/users/${userId}/shops/${shopId}`, editShopImage)
+      .then((response) => {
+        console.log("response", response.data)
+        setEditedShopFlag((prevState) => !prevState)
+        closeBtModal()
+      })
+      .catch((error) => {
+        console.log("error", error)
+        setSubmitError("Could not update item. Please try again later.")
+      })
+  }
+
+  const handleEditShopImageUpload = (e) => {
+    e.preventDefault()
+    const formData = new FormData()
+    formData.append("myImage", e.target.files[0])
+    console.log(e.target.files[0])
+    console.log(formData)
+    axios({
+      method: "post",
+      url: `${baseURL}/upload`,
+      data: formData,
+      headers: {
+        "Content-Type":
+          "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+      },
+    })
+      .then((response) => {
+        console.log("response from upload", response.data)
+        setEditShopImage({
+          imageUrl: response.data.imageUrl,
+        })
+      })
+      .catch((error) => {
+        console.log("error while uploading", error)
+        setEditShopImage({
+          imageUrl:
+            "https://cdn.shopify.com/s/files/1/0550/2595/9111/products/placeholder-images-image_large_fdf08b50-ae9b-476d-bce2-aa57319b6b67_600x.png?v=1634637556",
+        })
+      })
+  }
+
   const productsDiv = shopProducts?.map((product, index) => {
     let pageLink = `/product/${product._id}`
     return (
@@ -220,18 +271,92 @@ const ShopHome = () => {
                       </div>
                       <div class='col-lg-8 col-md-8 col-12'>
                         {/* <br /> */}
-                        <h4 class='mt-2 m-b-0'>{data.name}</h4>
+                        <h3 class='mt-2 m-b-0'>{data.name}</h3>
                         <span class='job_post'>
                           {data.totalSalesCount} Sales |{" "}
                         </span>
-                        <span class='job_post'>On Etsy since 2022</span>
+                        <span class='job_post'> Star Seller</span>
                         <br /> <br />
                         <div>
                           {isOwner && (
-                            <button class='btn btn-sm btn-dark btn-round'>
+                            <button
+                              class='btn btn-outline-dark btn-round'
+                              data-toggle='modal'
+                              data-target='#editShopModal'
+                              onClick={handleShopEditBtnClick}
+                            >
                               <i className='fa fa-pencil'></i> Edit Shop
                             </button>
                           )}
+                          <div
+                            class='modal fade'
+                            id='editShopModal'
+                            tabIndex='-1'
+                            role='dialog'
+                            aria-labelledby='editShopModalLabel'
+                            aria-hidden='true'
+                          >
+                            <div
+                              class='modal-dialog modal-dialog-centered'
+                              role='document'
+                            >
+                              <div class='modal-content'>
+                                <div class='modal-header'>
+                                  <h5
+                                    class='modal-title'
+                                    id='editShopModalLabel'
+                                  >
+                                    <i className='fa fa-plus'></i> Edit Shop
+                                  </h5>
+                                  <button
+                                    type='button'
+                                    class='close'
+                                    data-dismiss='modal'
+                                    aria-label='Close'
+                                  >
+                                    <span aria-hidden='true'>&times;</span>
+                                  </button>
+                                </div>
+                                <div class='modal-body'>
+                                  <form>
+                                    <div className='form-group'>
+                                      <label
+                                        class='form-label'
+                                        for='customFile'
+                                      >
+                                        Upload Shop Image
+                                      </label>
+                                      <input
+                                        type='file'
+                                        class='form-control'
+                                        accept='image/*'
+                                        id='customFile'
+                                        name='imageUrl'
+                                        onChange={handleEditShopImageUpload}
+                                      />
+                                    </div>
+                                  </form>
+                                </div>
+                                <div class='modal-footer'>
+                                  <button
+                                    type='button'
+                                    class='btn btn-secondary'
+                                    data-dismiss='modal'
+                                  >
+                                    Close
+                                  </button>
+                                  <button
+                                    type='button'
+                                    class='btn btn-primary'
+                                    onClick={handleEditShopSubmit}
+                                    data-dismiss='modal'
+                                  >
+                                    Save Changes
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -254,17 +379,14 @@ const ShopHome = () => {
                         height='100'
                       />
                       <div class='mt-3'>
-                        <h4>{data.ownerDetails.username}</h4>
+                        <h3 class='mt-2 m-b-0'>{data.ownerDetails.username}</h3>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div
-              className='container'
-              style={{ width: "90%", margin: "30px auto" }}
-            >
+            <div className='container' style={{ margin: "30px auto" }}>
               <div className='row'>
                 <div className='col-md-10'>
                   <h4>Shop Items</h4>
@@ -272,7 +394,7 @@ const ShopHome = () => {
                 <div className='col-md-2 float-right'>
                   {isOwner ? (
                     <button
-                      className='btn btn-dark btn-sm w-100'
+                      className='btn btn-outline-dark w-100'
                       data-toggle='modal'
                       data-target='#addItemModal'
                       onClick={handleAddNewItemBtnClick}

@@ -161,16 +161,16 @@ const ProfilePage = () => {
                             />
                           </div>
                           <div class='col-md-4'>
-                            <label class='mb-1' for='phone'>
+                            <label class='mb-1' for='phoneNo'>
                               Phone number
                             </label>
                             <input
                               class='form-control'
-                              id='phone'
-                              name='phone'
+                              id='phoneNo'
+                              name='phoneNo'
                               type='text'
                               placeholder='Enter your phone number'
-                              value={editUser?.phone}
+                              value={editUser?.phoneNo}
                               onChange={handleInputChange}
                             />
                           </div>

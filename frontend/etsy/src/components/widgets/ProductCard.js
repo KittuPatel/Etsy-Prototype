@@ -1,6 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
-
+import { BsSuitHeartFill } from "react-icons/bs"
+import { CgShoppingCart } from "react-icons/cg"
 const ProductCard = ({
   product,
   index,
@@ -45,7 +46,8 @@ const ProductCard = ({
                 style={{ fontSize: "16px", color: "black" }}
                 onClick={() => handleFavProduct(product._id)}
               >
-                <i class='fa fa-heart-o'></i>
+                <BsSuitHeartFill style={{ fontSize: "18px" }} />
+                {/* <i class='fa fa-heart-o'></i> */}
               </button>
             </li>
             <li>
@@ -54,10 +56,7 @@ const ProductCard = ({
                 className='btn btn-sm btn-icon-link'
                 onClick={() => addToCart(product._id)}
               >
-                <i
-                  class='fa fa-shopping-cart'
-                  style={{ fontSize: "16px", color: "black" }}
-                ></i>
+                <CgShoppingCart style={{ fontSize: "18px" }} />
               </button>
               {/* </Link> */}
             </li>

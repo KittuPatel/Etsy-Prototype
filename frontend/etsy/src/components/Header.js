@@ -1,10 +1,13 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { Input } from "semantic-ui-react"
 import logout from "../context/actions/logout"
 import { GlobalContext } from "../context/Provider"
+import { productsAction } from "../context/actions/productsAction"
 import { useHistory } from "react-router-dom"
-
+import { BiStoreAlt } from "react-icons/bi"
+import { BsSuitHeartFill } from "react-icons/bs"
+import { CgShoppingCart } from "react-icons/cg"
 const Header = () => {
   const {
     authState: { auth: data },
@@ -13,14 +16,20 @@ const Header = () => {
     globalState,
   } = useContext(GlobalContext)
   // const user = data.data?.data
+  const userId = globalState?.user?.userId
+
+  const [query, setQuery] = useState("")
 
   const history = useHistory()
   console.log("user from authState Header", data)
   console.log("from globalState Header", globalState)
 
-  // useEffect(() => {
+  useEffect(() => {
+    console.log("Search Items are", query)
 
-  // }, [])
+    console.log("products Search action dispatch")
+    productsAction(userId, query)(globalDispatch)
+  }, [query])
 
   const handleLogout = () => {
     logout(history)(globalDispatch)
@@ -31,69 +40,6 @@ const Header = () => {
 
   return (
     <header className='header'>
-      <footer className='footer' style={{ backgroundColor: "#1e1e27" }}>
-        <div className='container footerContainer'>
-          <div className='row'>
-            <div className='col-lg-12'>
-              <div className='footer_nav_container'>
-                <div className='cr'></div>
-              </div>
-            </div>
-          </div>
-          <div className='top_nav'>
-            <div className='container'>
-              <div className='row'>
-                <div className='col-md-6'>
-                  <div className='top_nav_right'>
-                    <ul className='top_nav_menu'>
-                      <li className='language'>
-                        <Link to='/'>
-                          United States
-                          {/* <i className="fa fa-angle-down"></i> */}
-                        </Link>
-                        {/* <ul className="language_selection">
-                                        <li><Link to="/">French</Link></li>
-                                        <li><Link to="/">Italian</Link></li>
-                                        <li><Link to="/">German</Link></li>
-                                        <li><Link to="/">Spanish</Link></li>
-                                    </ul> */}
-                      </li>
-                      <li className='currency'>
-                        <Link to='/'>
-                          usd
-                          {/* <i className="fa fa-angle-down"></i> */}
-                        </Link>
-                        {/* <ul className="currency_selection">
-                                        <li><Link to="/">cad</Link></li>
-                                        <li><Link to="/">aud</Link></li>
-                                        <li><Link to="/">eur</Link></li>
-                                        <li><Link to="/">gbp</Link></li>
-                                    </ul> */}
-                      </li>
-                      <li className='account'>
-                        <Link to='/'>
-                          My Account
-                          <i className='fa fa-angle-down'></i>
-                        </Link>
-                        {/* <ul className="account_selection">
-                                        <li><Link to="/"><i className="fa fa-sign-in" aria-hidden="true"></i>Sign In</Link></li>
-                                        <li><Link to=""><i className="fa fa-user-plus" aria-hidden="true"></i>Register</Link></li>
-                                    </ul> */}
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div className='col-md-6 text-right'>
-                  <div className='top_nav_left'>
-                    <i className='fa fa-bolt'></i> Etsy is powered by 100%
-                    renewable electricity.{" "}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
       <div className='main_nav_container'>
         <div className='container'>
           <div className='row'>
@@ -110,6 +56,7 @@ const Header = () => {
                       icon={{ name: "search", link: true }}
                       placeholder='Search for anything'
                       style={{ width: "370px" }}
+                      onChange={(e) => setQuery(e.target.value)}
                     />
                   </li>
                   {globalState.user?.userId === null ? (
@@ -132,7 +79,8 @@ const Header = () => {
                 <ul className='navbar_user'>
                   <li>
                     <Link to='/favorites'>
-                      <i className='fa fa-heart' aria-hidden='true'></i>
+                      {/* <i className='fa fa-heart' aria-hidden='true'></i> */}
+                      <BsSuitHeartFill style={{ fontSize: "18px" }} />
                     </Link>
                   </li>
                   {/* <li>
@@ -150,14 +98,15 @@ const Header = () => {
                   ) : (
                     <li>
                       <Link to={shopLink}>
-                        <i className='fa fa-building' aria-hidden='true'></i>{" "}
-                        Shop
+                        {/* <i className='fa fa-building' aria-hidden='true'></i>{" "} */}
+                        <BiStoreAlt style={{ fontSize: "20px" }} />
                       </Link>
                     </li>
                   )}
                   <li>
                     <Link to='/cart'>
-                      <i className='fa fa-shopping-cart' aria-hidden='true'></i>
+                      <CgShoppingCart style={{ fontSize: "20px" }} />
+                      {/* <i className='fa fa-shopping-cart' aria-hidden='true'></i> */}
                       {/* <span id='checkout_items' className='checkout_items'>
                         2
                       </span> */}
@@ -166,11 +115,11 @@ const Header = () => {
                 </ul>
 
                 {globalState.user?.userId !== null ? (
-                  <ul className='navbar_menu'>
+                  <ul className='navbar_menu' style={{ marginLeft: "30px" }}>
                     <li>
                       <button onClick={handleLogout} className='btn btn-danger'>
                         <i className='fa fa-sign-out' aria-hidden='true'></i>{" "}
-                        Logout
+                        {/* Logout */}
                       </button>
                     </li>
                   </ul>

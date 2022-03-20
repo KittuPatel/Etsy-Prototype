@@ -4,7 +4,7 @@ export default {
     userId: null,
     shopId: null,
     email: null,
-    phone: null,
+    phoneNo: null,
     address: null,
     city: null,
     state: null,
