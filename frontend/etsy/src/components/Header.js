@@ -105,7 +105,9 @@ const Header = () => {
                   </li> */}
                   {/* &&
                   globalState.shop?.data == null */}
-                  {globalState.user?.shopId == null ? (
+                  {globalState.user?.shopId == null &&
+                  globalState.shop?.data?.createdBy !==
+                    globalState.user?.userId ? (
                     <li>
                       <Link to='/create-shop'>
                         <i
