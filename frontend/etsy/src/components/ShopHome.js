@@ -272,17 +272,17 @@ const ShopHome = () => {
   }
   const postNewCatData = async () => {
     const response = await axiosInstance().post(
-      `${baseURL}users/${userId}/shops/${shopId}/categories`,
+      `${baseURL}/users/${userId}/shops/${shopId}/categories`,
       newCat
     )
     console.log("//", baseURL)
     console.log(
       "//////////",
-      `${baseURL}users/${userId}/shops/${shopId}/categories`
+      `${baseURL}/users/${userId}/shops/${shopId}/categories`
     )
     if (response && response.data) {
       const response = await axiosInstance().get(
-        `${baseURL}users/${userId}/shops/${shopId}/categories`
+        `${baseURL}/users/${userId}/shops/${shopId}/categories`
       )
       if (response.data && response) {
         setCategories(response.data.categories)
