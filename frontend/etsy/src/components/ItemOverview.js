@@ -7,14 +7,17 @@ import { productsAction } from "../context/actions/productsAction"
 import ShopName from "./ShopName"
 import axios from "axios"
 import { Dimmer, Loader } from "semantic-ui-react"
-import axiosInstance from "../helpers/axiosInstance"
-
+import axiosInstance, { baseURL } from "../helpers/axiosInstance"
+import { putCartAction } from "../context/actions/cartAction"
+import { BsSuitHeartFill } from "react-icons/bs"
 const ItemOverview = () => {
   const { id } = useParams()
   const [product, setProduct] = useState({})
   const [loading, setLoading] = useState(false)
   const [productQuantity, setProductQuantity] = useState(0)
   const { globalDispatch, globalState } = useContext(GlobalContext)
+  const [msg, setMsg] = useState(false)
+  const [msg2, setMsg2] = useState(false)
   const {
     user,
     products: { data },
@@ -39,6 +42,39 @@ const ItemOverview = () => {
         console.log(err)
       })
   }, [])
+
+  const addToCart = (productId) => {
+    const token = localStorage.getItem("token")
+    if (token) {
+      console.log(productId)
+      console.log(userId)
+      putCartAction(userId, productId)(globalDispatch)
+      //console.log("HI put cart action dispatch");
+      setMsg2(true)
+      setTimeout(() => {
+        setMsg2(false)
+      }, 2000)
+    }
+  }
+
+  const handleFavProduct = async (productId) => {
+    const token = localStorage.getItem("token")
+    if (token) {
+      const response = await axiosInstance().post(
+        `/users/${userId}/favorites`,
+        { productId }
+      )
+      if (response && response.data) {
+        console.log("Item Added To Favorites Successfully")
+        setMsg(true)
+        setTimeout(() => {
+          setMsg(false)
+        }, 2000)
+      } else {
+        console.log("Error adding favorites")
+      }
+    }
+  }
 
   let handleQuantityChange = (e) => {
     setProductQuantity(e.target.value)
@@ -83,7 +119,20 @@ const ItemOverview = () => {
                     <u>{product.shopName}</u>{" "}
                   </Link>
                 </div>
-                <h3 className='display-5 fw-bolder'>{product.name}</h3>
+                <div className='row'>
+                  <div className='col-md-10'>
+                    <h3 className='display-5 fw-bolder'>{product.name}</h3>
+                  </div>
+                  <div className='col-md-2'>
+                    <button
+                      className='btn btn-circle btn-sm float-right'
+                      type='button'
+                      onClick={() => handleFavProduct(id)}
+                    >
+                      <BsSuitHeartFill />
+                    </button>
+                  </div>
+                </div>
                 {product.quantity > 0 ? null : (
                   <h3>
                     <span class='badge badge-secondary'>Out of Stock</span>
@@ -108,19 +157,27 @@ const ItemOverview = () => {
                   </select>
                 </div>
                 <br />
-                {/* <button className='btn btn-dark-outine w-100' type='button'>
-                  <i className='bi-cart-fill me-1'></i>
-                  Add to Favorites
-                </button> */}
                 <br /> <br />
-                <Link
+                <button
                   className='btn btn-dark w-100'
-                  to='/cart'
+                  // to='/cart'
+                  onClick={() => addToCart(id)}
                   disabled={product.quantity <= 0}
                 >
                   <i className='bi-cart-fill me-1'></i>
                   Add to cart
-                </Link>
+                </button>
+                <br /> <br />
+                {msg && (
+                  <div class='alert alert-success' role='alert'>
+                    Item added to Favorites Successfully!
+                  </div>
+                )}
+                {msg2 && (
+                  <div class='alert alert-success' role='alert'>
+                    Item added to cart Successfully!
+                  </div>
+                )}
                 <div></div>
               </div>
             </div>

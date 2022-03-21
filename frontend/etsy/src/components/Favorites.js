@@ -141,6 +141,7 @@ const Favorites = () => {
                             ? user.imageUrl
                             : "https://global-uploads.webflow.com/5e4627609401e01182af1cce/5eb13bfdb4659efea4f8dace_profile-dummy.png"
                         }
+                        style={{ height: "130px", width: "130px" }}
                         alt=''
                       />{" "}
                     </div>

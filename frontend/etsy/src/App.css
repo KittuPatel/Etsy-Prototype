@@ -24,6 +24,15 @@ body {
   cursor: pointer;
 }
 
+.btn-circle.btn-sm {
+  width: 30px;
+  height: 30px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  font-size: 16px;
+  text-align: center;
+}
+
 .btn-icon-link {
   color: #000;
   background-color: #fff;

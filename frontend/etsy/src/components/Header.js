@@ -18,7 +18,7 @@ const Header = () => {
   } = useContext(GlobalContext)
   // const user = data.data?.data
   const userId = globalState?.user?.userId
-  const shopId = globalState?.shop?.data?._id
+  const shopId = globalState?.user?.shopId || globalState?.shop?.data?._id
   const [query, setQuery] = useState("")
 
   const history = useHistory()
@@ -30,7 +30,7 @@ const Header = () => {
 
     console.log("products Search action dispatch")
     productsAction(userId, query)(globalDispatch)
-  }, [query])
+  }, [query, shopId])
 
   const handleLogout = () => {
     logout(history)(globalDispatch)
@@ -102,7 +102,8 @@ const Header = () => {
                       <i className='fa fa-user' aria-hidden='true'></i>
                     </Link>
                   </li> */}
-                  {globalState.shop?.data == null ? (
+                  {globalState.user?.shopId == null &&
+                  globalState.shop?.data == null ? (
                     <li>
                       <Link to='/create-shop'>
                         <i

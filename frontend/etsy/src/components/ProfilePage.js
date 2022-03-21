@@ -5,6 +5,8 @@ import countries from "../utils/countries.js"
 import axiosInstance from "../helpers/axiosInstance"
 import { useHistory } from "react-router"
 import { Dimmer, Loader } from "semantic-ui-react"
+import { baseURL } from "../helpers/axiosInstance"
+import axios from "axios"
 
 const ProfilePage = () => {
   const { authState, globalState, globalDispatch } = useContext(GlobalContext)
@@ -75,7 +77,7 @@ const ProfilePage = () => {
       .then((response) => {
         if (response && response.data) {
           console.log("update profile successful")
-          history.push("/editprofile")
+          history.push("/favorites")
         } else {
           console.log("error posting data to API")
         }
@@ -88,6 +90,43 @@ const ProfilePage = () => {
         console.log("error posting data to API")
       })
   }
+
+  const handleEditShopImageUpload = (e) => {
+    e.preventDefault()
+    const formData = new FormData()
+    formData.append("myImage", e.target.files[0])
+    console.log(e.target.files[0])
+    console.log(formData)
+    axios({
+      method: "post",
+      url: `${baseURL}/upload`,
+      data: formData,
+      headers: {
+        "Content-Type":
+          "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+      },
+    })
+      .then((response) => {
+        console.log("response from upload", response.data)
+        setEditUser({
+          ...editUser,
+          imageUrl: response.data.imageUrl,
+        })
+        console.log("edit user aftter response", editUser)
+      })
+      .catch((error) => {
+        console.log("error while uploading", error)
+        setEditUser({
+          ...editUser,
+          imageUrl:
+            "https://cdn.shopify.com/s/files/1/0550/2595/9111/products/placeholder-images-image_large_fdf08b50-ae9b-476d-bce2-aa57319b6b67_600x.png?v=1634637556",
+        })
+      })
+  }
+
+  // const handleEditShopSubmit = (e) => {
+
+  // }
 
   return (
     <div>
@@ -112,7 +151,11 @@ const ProfilePage = () => {
                     <div class='card-body text-center'>
                       <img
                         class='img-account-profile rounded-circle mb-2'
-                        src='https://bootdey.com/img/Content/avatar/avatar2.png'
+                        src={
+                          editUser?.imageUrl
+                            ? editUser.imageUrl
+                            : "https://global-uploads.webflow.com/5e4627609401e01182af1cce/5eb13bfdb4659efea4f8dace_profile-dummy.png"
+                        }
                         width='100'
                         height='100'
                         alt=''
@@ -120,9 +163,76 @@ const ProfilePage = () => {
                       <div class='small font-italic text-muted mb-4'>
                         JPG or PNG no larger than 1 MB
                       </div>
-                      <button class='btn btn-primary' type='button'>
+                      <button
+                        class='btn btn-outline-dark btn-round'
+                        data-toggle='modal'
+                        data-target='#editShopModal'
+                      >
                         Upload new image
                       </button>
+                      <div
+                        class='modal fade'
+                        id='editShopModal'
+                        tabIndex='-1'
+                        role='dialog'
+                        aria-labelledby='editShopModalLabel'
+                        aria-hidden='true'
+                      >
+                        <div
+                          class='modal-dialog modal-dialog-centered'
+                          role='document'
+                        >
+                          <div class='modal-content'>
+                            <div class='modal-header'>
+                              <h5 class='modal-title' id='editShopModalLabel'>
+                                <i className='fa fa-plus'></i> Upload new image
+                              </h5>
+                              <button
+                                type='button'
+                                class='close'
+                                data-dismiss='modal'
+                                aria-label='Close'
+                              >
+                                <span aria-hidden='true'>&times;</span>
+                              </button>
+                            </div>
+                            <div class='modal-body'>
+                              <form>
+                                <div className='form-group'>
+                                  <label class='form-label' for='customFile'>
+                                    Upload Shop Image
+                                  </label>
+                                  <input
+                                    type='file'
+                                    class='form-control'
+                                    accept='image/*'
+                                    id='customFile'
+                                    name='imageUrl'
+                                    onChange={handleEditShopImageUpload}
+                                  />
+                                </div>
+                              </form>
+                            </div>
+                            <div class='modal-footer'>
+                              <button
+                                type='button'
+                                class='btn btn-secondary'
+                                data-dismiss='modal'
+                              >
+                                Close
+                              </button>
+                              <button
+                                type='button'
+                                class='btn btn-dark'
+                                // onClick={handleEditShopSubmit}
+                                data-dismiss='modal'
+                              >
+                                Save Changes
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -162,6 +272,7 @@ const ProfilePage = () => {
                               name='email'
                               placeholder='Enter your email address'
                               value={editUser?.email}
+                              disabled
                               onChange={handleInputChange}
                             />
                           </div>
@@ -299,7 +410,7 @@ const ProfilePage = () => {
                         </div>
                         <br />
                         <button
-                          class='btn btn-primary float-right'
+                          class='btn btn-dark float-right'
                           type='button'
                           onClick={postuserData}
                         >

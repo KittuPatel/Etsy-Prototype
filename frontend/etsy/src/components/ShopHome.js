@@ -30,9 +30,12 @@ const ShopHome = () => {
   const [editItemProduct, setEditItemProduct] = useState("")
   const [editProductData, setEditProductData] = useState({})
   const [editShopImage, setEditShopImage] = useState({})
+  const [newCatShow, setNewCatShow] = useState(false)
+  const [newCatValue, setNewCatValue] = useState("")
   const { globalDispatch, globalState } = useContext(GlobalContext)
   const {
     shop: { data, loading, error },
+    user,
   } = globalState
   useEffect(() => {
     // getShopProductsAction(userId, shopData)(globalDispatch)
@@ -44,7 +47,7 @@ const ShopHome = () => {
       .then((response) => {
         console.log("response from shop products", response.data)
         setShopProducts(response.data.products)
-        if (data?._id === shopId) {
+        if (data?._id === shopId || user.shopId === shopId) {
           setIsOwner(true)
         } else {
           setIsOwner(false)
@@ -241,6 +244,40 @@ const ShopHome = () => {
     )
   })
 
+  const showNewCatInput = () => {
+    setNewCatShow(true)
+  }
+
+  const hideNewCatInput = () => {
+    setNewCatShow(false)
+  }
+
+  const handleNewCat = (e) => {
+    setNewCatValue(e.target.value)
+  }
+  const newCat = {
+    name: newCatValue,
+  }
+  const postNewCatData = async () => {
+    const response = await axiosInstance().post(
+      `${baseURL}/users/${userId}/shops/${shopId}/categories`,
+      newCat
+    )
+    if (response && response.data) {
+      const response = await axiosInstance().get(
+        `${baseURL}/users/${userId}/shops/${shopId}/categories`
+      )
+      if (response.data && response) {
+        setCategories(response.data.categories)
+      } else {
+        console.log("Error adding new categories")
+      }
+      hideNewCatInput()
+    } else {
+      console.log("Error Adding New Category")
+    }
+  }
+
   return (
     <div>
       <Header />
@@ -345,7 +382,7 @@ const ShopHome = () => {
                                   </button>
                                   <button
                                     type='button'
-                                    class='btn btn-primary'
+                                    class='btn btn-dark'
                                     onClick={handleEditShopSubmit}
                                     data-dismiss='modal'
                                   >
@@ -428,7 +465,7 @@ const ShopHome = () => {
                           </button>
                         </div>
                         <div class='modal-body'>
-                          <form>
+                          <form onSubmit={(e) => e.preventDefault()}>
                             {submitError && (
                               <div class='alert alert-danger' role='alert'>
                                 {submitError}
@@ -466,6 +503,52 @@ const ShopHome = () => {
                                     )
                                   })}
                               </select>
+                              <button
+                                onClick={showNewCatInput}
+                                className='btn btn-link'
+                                type='button'
+                                style={{ color: "black" }}
+                              >
+                                <i className='fa fa-plus'></i> Create New
+                                Category
+                              </button>
+                            </div>
+                            <div className='row'>
+                              <div className='col'>
+                                {newCatShow && (
+                                  <input
+                                    placeholder='Enter New Category'
+                                    className='form-control'
+                                    type='text'
+                                    name='newcat'
+                                    value={newCatValue}
+                                    onChange={handleNewCat}
+                                  ></input>
+                                )}
+                              </div>
+
+                              <div className='col'>
+                                {/* <br></br>
+                                      <br></br> */}
+                                {newCatShow && (
+                                  <button
+                                    className='btn btn-sm btn-dark'
+                                    onClick={postNewCatData}
+                                  >
+                                    Save
+                                  </button>
+                                )}{" "}
+                                {"  "}
+                                {newCatShow && (
+                                  <button
+                                    className='btn btn-sm btn-outline-dark'
+                                    onClick={hideNewCatInput}
+                                  >
+                                    Cancel
+                                  </button>
+                                )}
+                                <br />
+                              </div>
                             </div>
                             <div class='form-group'>
                               <label class='col-form-label' for='price'>

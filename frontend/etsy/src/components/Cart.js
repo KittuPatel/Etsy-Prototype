@@ -101,7 +101,7 @@ const Cart = () => {
           <input
             type='number'
             value={cartItem?.quantity}
-            className='form-control form-control-lg text-center'
+            className='form-control text-center'
           />
           {cartItem?.quantity.toString}
         </td>
@@ -171,17 +171,23 @@ const Cart = () => {
                 )}
               </div>
             </div>
+            <br /> <br /> <br />
             <div className='row mt-4 d-flex align-items-center'>
               <div className='col-sm-6 order-md-2 text-right'>
                 <button
                   onClick={checkOutCartItems}
                   className='btn btn-dark mb-4 btn-lg pl-5 pr-5'
+                  style={{ letterSpacing: "1px", fontSize: "16px" }}
                 >
-                  Checkout
+                  CHECKOUT
                 </button>
               </div>
               <div className='col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left'>
-                <Link to='/'>
+                <Link
+                  to='/'
+                  className='btn btn-link'
+                  style={{ color: "black" }}
+                >
                   <i className='fa fa-arrow-left mr-2'></i> Continue Shopping
                 </Link>
               </div>
