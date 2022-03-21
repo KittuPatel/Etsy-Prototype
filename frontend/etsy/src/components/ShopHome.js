@@ -59,7 +59,7 @@ const ShopHome = () => {
     } else {
       setIsOwner(false)
     }
-  }, [addedItem, editedItem, editedShopFlag, shopProducts])
+  }, [addedItem, editedItem, editedShopFlag])
 
   useEffect(() => {
     if (shopFromState === userDetails.userId) {
