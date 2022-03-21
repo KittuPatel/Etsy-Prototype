@@ -165,7 +165,7 @@ const Cart = () => {
                 {cartCount === 0 ? null : (
                   <div className='float-right text-right'>
                     <h3>
-                      Total: <b>${cartTotal}</b>
+                      Total: <b>${cartTotal.toFixed(2)}</b>
                     </h3>
                   </div>
                 )}
