@@ -51,55 +51,51 @@ function PurchasesPage() {
           <br></br>
           <div class='row'>
             <div class='col-12'>
-              {purchaseDeatils.map((singlePurchase) => {
-                return (
-                  <div class='card' style='width: 500px;'>
-                    <div class='row no-gutters'>
-                      <div class='col-sm-5'>
-                        <img
-                          //   src={singlePurchase.productImage}
-                          onError={({ currentTarget }) => {
-                            currentTarget.onerror = null // prevents looping
-                            currentTarget.src =
-                              "https://justbakedcake.com/wp-content/uploads/2020/09/Product_Image_Placeholder.jpg"
-                          }}
-                          src={
-                            singlePurchase.productImage
-                              ? singlePurchase.productImage
-                              : "https://justbakedcake.com/wp-content/uploads/2020/09/Product_Image_Placeholder.jpg"
-                          }
-                          class='img-fluid img-thumbnail'
-                          alt='Product Image'
-                          style={{ width: "50px", height: "50px" }}
-                        />
-                      </div>
-                      <div class='col-sm-7'>
-                        <div class='card-body'>
-                          <h5 class='card-title'>
-                            {singlePurchase.productName}
-                          </h5>
-                          <h6></h6>
-
-                          <p class='card-text'>
-                            {" "}
-                            Order Id: {singlePurchase._id}
-                          </p>
-                          <p class='card-text'>
-                            {" "}
-                            Price: ${singlePurchase.price}
-                          </p>
-                          <p class='card-text'>
-                            Qty: {singlePurchase.quantity}
-                          </p>
-                          <p class='card-text'>
-                            Date: {singlePurchase.createdOn.slice(0, 10)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
+              <table class='table table-image'>
+                <thead>
+                  <tr>
+                    <th scope='col'>Date</th>
+                    <th scope='col'>Order ID</th>
+                    <th scope='col'>Image</th>
+                    <th scope='col'>Product Name</th>
+                    <th scope='col'>Price</th>
+                    <th scope='col'>Quantity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {purchaseDeatils.map((singlePurchase) => {
+                    return (
+                      <tr>
+                        <th scope='row'>
+                          {singlePurchase.createdOn.slice(0, 10)}
+                        </th>
+                        <td>{singlePurchase._id}</td>
+                        <td class='w-25'>
+                          <img
+                            //   src={singlePurchase.productImage}
+                            onError={({ currentTarget }) => {
+                              currentTarget.onerror = null // prevents looping
+                              currentTarget.src =
+                                "https://justbakedcake.com/wp-content/uploads/2020/09/Product_Image_Placeholder.jpg"
+                            }}
+                            src={
+                              singlePurchase.productImage
+                                ? singlePurchase.productImage
+                                : "https://justbakedcake.com/wp-content/uploads/2020/09/Product_Image_Placeholder.jpg"
+                            }
+                            class='img-fluid img-thumbnail'
+                            alt='Product Image'
+                            style={{ width: "50px", height: "50px" }}
+                          ></img>
+                        </td>
+                        <td>{singlePurchase.productName}</td>
+                        <td>{singlePurchase.price}</td>
+                        <td>{singlePurchase.quantity}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

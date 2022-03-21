@@ -33,29 +33,41 @@ const ShopHome = () => {
   const [newCatShow, setNewCatShow] = useState(false)
   const [newCatValue, setNewCatValue] = useState("")
   const { globalDispatch, globalState } = useContext(GlobalContext)
+  const shopFromState = globalState?.shop?.data?.createdBy
   const {
     shop: { data, loading, error },
     user,
   } = globalState
+  const userDetails = JSON.parse(localStorage.getItem("userDetails"))
   useEffect(() => {
     // getShopProductsAction(userId, shopData)(globalDispatch)
     //  {{host}}/users/{{userId}}/shops/{{shopId}}/products
-    const userDetails = JSON.parse(localStorage.getItem("userDetails"))
     shopAction(userId, shopId)(globalDispatch)
     axiosInstance()
       .post(`/users/${userId}/products`, shopData)
       .then((response) => {
         console.log("response from shop products", response.data)
         setShopProducts(response.data.products)
-        if (data?._id === shopId || user.shopId === shopId) {
-          setIsOwner(true)
-        } else {
-          setIsOwner(false)
-        }
       })
+    console.log("data?.createdBy", data?.createdBy)
+    console.log("userDetails.userId", userDetails.userId)
+    console.log("shopFromState", shopFromState)
 
     shopAction(userId, shopId)(globalDispatch)
+    if (shopFromState === userDetails.userId) {
+      setIsOwner(true)
+    } else {
+      setIsOwner(false)
+    }
   }, [addedItem, editedItem, editedShopFlag])
+
+  useEffect(() => {
+    if (shopFromState === userDetails.userId) {
+      setIsOwner(true)
+    } else {
+      setIsOwner(false)
+    }
+  })
 
   const openBtModal = () => setEditModalIsOpen(true)
   const closeBtModal = () => setEditModalIsOpen(false)
