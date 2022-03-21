@@ -1,7 +1,6 @@
 import axios from "axios"
 
-export const baseURL =
-  "https://f204-2600-1700-65aa-d910-72fe-e6c-a33-e08f.ngrok.io"
+export const baseURL = process.env.REACT_APP_BACKEND_URL
 
 export default (history = null) => {
   // const baseURL = "http://localhost:3001"

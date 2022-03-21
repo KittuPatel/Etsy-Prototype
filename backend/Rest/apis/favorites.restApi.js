@@ -8,7 +8,7 @@ function createNewFavarite(req, res) {
     let newFavoriteId = `fav-${uuid()}`
     let favoriteDetails = [newFavoriteId, userId, productId, new Date()];
     connection.query('INSERT INTO favorites VALUES (?,?,?,?)', favoriteDetails, (err, results, fields) => {
-        !err ? res.json(results) : res.json(err);
+        !err ? res.status(200).json(results) : res.status(400).json(err);
     })
 }
 
@@ -26,6 +26,7 @@ async function getAllFavorites(req, res) {
         }
         let products = await query(selectQuery);
         let productIdsMap = _.keyBy(products, '_id')
+        favoriteItems = _.filter(favoriteItems, (item) => productIdsMap[item.productId]);
         res.json({
             favorites: _.map(favoriteItems, (item) => {
                 item.product = productIdsMap[item.productId]
@@ -39,11 +40,11 @@ async function getAllFavorites(req, res) {
     }
 }
 
-function removeFavorite(req, res) {
+async function removeFavorite(req, res) {
     let userId = req.params.userId;
     let favoriteId = req.params.favoriteId;
     try {
-        let result = query(`DELETE FROM favorites WHERE _id ='${favoriteId}' AND createdBy = '${userId}';`);
+        let result = await query(`DELETE FROM favorites WHERE _id ='${favoriteId}' AND createdBy = '${userId}';`);
         res.status(200).json(result);
     } catch (err) {
         console.log(err)

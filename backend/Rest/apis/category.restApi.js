@@ -18,6 +18,20 @@ function createNewFavoriteItem(req, res) {
     }
 }
 
+async function getAllCategories(erq, res) {
+  try {
+    let categories = await query(`select * from category`);
+    res.status(200).json({
+      categories
+    })
+  } catch(err) {
+    console.log("====Err : ", err)
+    res.status(400).json({
+      msg: 'Error fetching categories'
+    })
+  }
+}
+
 function getShopCategories(req, res) {
     if (
       !req.params ||
@@ -42,14 +56,20 @@ function getShopCategories(req, res) {
 }
 
 let endpoints = {
+  '/users/:userId/categories': [
+    {
+        method: 'GET',
+        callbacks: [getAllCategories]
+    }
+],
     '/users/:userId/shops/:shopId/categories': [
         {
             method: 'GET',
-            callbacks: [getShopCategories] 
+            callbacks: [getShopCategories]
         },
         {
             method: 'POST',
-            callbacks: [createNewFavoriteItem] 
+            callbacks: [createNewFavoriteItem]
         }
     ]
 }

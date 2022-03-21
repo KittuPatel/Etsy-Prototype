@@ -45,15 +45,25 @@ async function createNewProduct(req, res) {
 async function getAllProducts(req, res) {
     let { userId } = req.params; // verifiying userId in middleware
     let body = req.body;
-    let categoryIds = body.categoryIds;
-    let shopIds = body.shopIds;
+    let {categoryIds, shopIds, excludeShopIds, search} = body;
     let selectQuery, whereConditions = [];
     try {
+        let currentUserShopDetails = await query(`select * from shops where createdBy='${userId}'`);
+        currentUserShopDetails = _.get(currentUserShopDetails, '0')
+        if(currentUserShopDetails && currentUserShopDetails._id) {
+            body.excludeShopIds = [currentUserShopDetails._id]
+        }
+        if(search) {
+            whereConditions.push(`name REGEXP '${search}'`)
+        }
         if (categoryIds && categoryIds.length > 0) {
             whereConditions.push(`categoryId IN("${categoryIds.join('", "')}")`)
         }
         if (body.shopIds && body.shopIds.length) {
             whereConditions.push(`shopId IN("${shopIds.join('", "')}")`)
+        }
+        if (body.excludeShopIds && body.excludeShopIds.length) {
+            whereConditions.push(`shopId NOT IN("${body.excludeShopIds.join('", "')}")`)
         }
         if (body.priceRange && body.priceRange.length == 2) {
             let lowPrice = body.priceRange[0];
@@ -80,24 +90,66 @@ async function getAllProducts(req, res) {
     }
 }
 
+async function getProductById(req, res) {
+    let { userId, productId } = req.params; // verifiying userId in middleware
+    let selectQuery, whereConditions = [];
+    try {
+        selectQuery = `select * from products where _id='${productId}'`;
+        let product = await query(selectQuery);
+        product = product[0];
+        res.status(200).json(product);
+    } catch (err) {
+        res.status(400).json({
+            msg: `Error fetching product ${productId}`
+        });
+    }
+}
+
+const updateProductById = async (req, res) => {
+    let productId = req.params.productId;
+    try {
+        let productData = [
+            req.body.name,
+            req.body.imageUrl,
+            req.body.description,
+            req.body.price,
+            req.body.quantity,
+            productId
+        ];
+        let results = await query("UPDATE products SET name= ?, imageUrl=?, description=?, price=?, quantity=? where _id = ?", productData);
+        res.status(200).json({
+           msg: 'Updated successfully'
+        });
+    } catch (err) {
+        console.log("err ===>", err);
+        res.status(400).json({ msg: "Error in updating products data" });
+        return;
+    }
+};
+
+
 let endpoints = {
     '/users/:userId/shops/:shopId/products': [{
             method: 'POST',
             callbacks: [createNewProduct]
         },
-        {
-            method: 'GET',
-            callbacks: [getShopProducts]
-        }
+        // {
+        //     method: 'GET',
+        //     callbacks: [getShopProducts]
+        // }
     ],
     '/users/:userId/products': [{
         method: 'POST',
         callbacks: [getAllProducts]
     }],
-    // '/public/products': [{
-    //     method: 'POST',
-    //     callbacks: [getAllProducts]
-    // }]
+    '/users/:userId/products/:productId': [{
+        method: 'GET',
+        callbacks: [getProductById]
+    },
+    {
+        method: 'PUT',
+        callbacks: [updateProductById]
+    }]
 }
 
 export { endpoints }
