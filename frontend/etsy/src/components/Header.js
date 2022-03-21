@@ -18,7 +18,8 @@ const Header = () => {
   } = useContext(GlobalContext)
   // const user = data.data?.data
   const userId = globalState?.user?.userId
-  const shopId = globalState?.user?.shopId || globalState?.shop?.data?._id
+  const shopId = globalState?.user?.shopId
+  // || globalState?.shop?.data?._id
   const [query, setQuery] = useState("")
 
   const history = useHistory()
@@ -102,8 +103,9 @@ const Header = () => {
                       <i className='fa fa-user' aria-hidden='true'></i>
                     </Link>
                   </li> */}
-                  {globalState.user?.shopId == null &&
-                  globalState.shop?.data == null ? (
+                  {/* &&
+                  globalState.shop?.data == null */}
+                  {globalState.user?.shopId == null ? (
                     <li>
                       <Link to='/create-shop'>
                         <i
