@@ -99,7 +99,7 @@ const ProfilePage = () => {
     console.log(formData)
     axios({
       method: "post",
-      url: `${baseURL}/upload`,
+      url: `${baseURL}upload`,
       data: formData,
       headers: {
         "Content-Type":
