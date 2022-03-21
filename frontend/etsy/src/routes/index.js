@@ -1,4 +1,4 @@
-import Register from "../components/Register.js"
+import Register from "../components/register.js"
 import Login from "../components/Login.js"
 import App from "../App.js"
 import ShopName from "../components/ShopName.js"
